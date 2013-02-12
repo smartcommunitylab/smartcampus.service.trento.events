@@ -32,6 +32,7 @@ import org.htmlcleaner.TagNode;
 import org.w3c.dom.Document;
 
 import eu.trentorise.smartcampus.services.trento.events.data.message.Events;
+import eu.trentorise.smartcampus.services.trento.events.data.message.Events.TCEvent;
 import eu.trentorise.smartcampus.services.trento.events.data.message.Events.TCEventDescr;
 import eu.trentorise.smartcampus.services.trento.events.data.message.Events.TCEventPage;
 
@@ -97,4 +98,9 @@ public class EventsScript {
 		return mergeDescriptors(null, pageDescr, cities);
 	}
 
+	public TCEvent updateDate(TCEvent evt, String date) {
+		TCEvent.Builder builder = TCEvent.newBuilder(evt);
+		builder.setEventDate(date);
+		return builder.build();
+	}
 }

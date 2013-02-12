@@ -122,10 +122,18 @@
 			<xss outputVar="eventMsg" key="service/trentoevents/trentinocultura-singolo.xss.xml" type="eu.trentorise.smartcampus.services.trento.events.data.message.Events.TCEvent">
 				<in>html</in>
 			</xss>  
-			
-			<geolocalize outputVar="dayEventList" inputVar="eventMsg" attribute="poi" onError="continue" writeAction="append">
+
+			<geolocalize outputVar="eventMsg" inputVar="eventMsg" attribute="poi" onError="continue" >
                 <poiName>eventMsg.getPlace()</poiName>
             </geolocalize>          
+
+            <script outputVar="dayEventList" writeAction="append">
+                <className>eu.trentorise.smartcampus.services.trento.events.scripts.EventsScript</className>
+                <method>updateDate</method>
+                <variables>
+                    <value>eventMsg</value>
+                </variables>
+            </script>
 			
 		</foreach>
 	

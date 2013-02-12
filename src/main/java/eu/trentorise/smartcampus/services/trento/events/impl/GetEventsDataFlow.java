@@ -327,13 +327,25 @@ public class GetEventsDataFlow implements ServiceDataFlow {
 				interpreter1.set("outpoibean", localizeOutBean1);
 				interpreter1.set("value", poiBean1);
 				interpreter1.eval("outpoibean.poi = value");
-				eu.trentorise.smartcampus.services.trento.events.data.message.Events.TCEvent outPoiTmp1 = (eu.trentorise.smartcampus.services.trento.events.data.message.Events.TCEvent)((ProtoBean)interpreter1.get("outpoibean")).buildMessage();
-				dayEventList.add(outPoiTmp1);
-					contextVariables.put("dayEventList", dayEventList);
+				eventMsg = (eu.trentorise.smartcampus.services.trento.events.data.message.Events.TCEvent)((ProtoBean)interpreter1.get("outpoibean")).buildMessage();
+					contextVariables.put("eventMsg", eventMsg);
 					} catch (LocalizeException e0) {
 						log.error("DataFlow Error: " + e0.getClass().getName());
 						continue;
 					}
+
+				//Script
+				{
+				try {
+					Object scriptResult8 = (Object)InvokeDataFlowScriptNode.invoke(eu.trentorise.smartcampus.services.trento.events.scripts.EventsScript.class, "updateDate", "eventMsg", contextVariables, serviceExecutionId, serviceMethod);
+					dayEventList.add(scriptResult8);
+					contextVariables.put("dayEventList", dayEventList);
+					InvokeVariableValidation.validate(serviceMethod, serviceExecutionId, "dayEventList", dayEventList);
+					} catch (Exception e0) {
+						log.error("DataFlow Error: " + e0.getClass().getName());
+						throw new DataFlowException(ExceptionMessage.TRANSFORMER_ERROR, e0);
+					}
+				}
 
 			}
 			eventList.addAll(dayEventList);

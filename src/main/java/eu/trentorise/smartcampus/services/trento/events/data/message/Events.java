@@ -1568,6 +1568,10 @@ public final class Events {
     boolean hasPoi();
     it.sayservice.platform.core.message.Core.POI getPoi();
     it.sayservice.platform.core.message.Core.POIOrBuilder getPoiOrBuilder();
+    
+    // optional string eventDate = 18;
+    boolean hasEventDate();
+    String getEventDate();
   }
   public static final class TCEvent extends
       com.google.protobuf.GeneratedMessage
@@ -2087,6 +2091,38 @@ public final class Events {
       return poi_;
     }
     
+    // optional string eventDate = 18;
+    public static final int EVENTDATE_FIELD_NUMBER = 18;
+    private java.lang.Object eventDate_;
+    public boolean hasEventDate() {
+      return ((bitField0_ & 0x00008000) == 0x00008000);
+    }
+    public String getEventDate() {
+      java.lang.Object ref = eventDate_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          eventDate_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getEventDateBytes() {
+      java.lang.Object ref = eventDate_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        eventDate_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
     private void initFields() {
       title_ = "";
       dateFrom_ = com.google.protobuf.LazyStringArrayList.EMPTY;
@@ -2105,6 +2141,7 @@ public final class Events {
       organization_ = "";
       notes_ = "";
       poi_ = it.sayservice.platform.core.message.Core.POI.getDefaultInstance();
+      eventDate_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2190,6 +2227,9 @@ public final class Events {
       }
       if (((bitField0_ & 0x00004000) == 0x00004000)) {
         output.writeMessage(17, poi_);
+      }
+      if (((bitField0_ & 0x00008000) == 0x00008000)) {
+        output.writeBytes(18, getEventDateBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -2277,6 +2317,10 @@ public final class Events {
       if (((bitField0_ & 0x00004000) == 0x00004000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(17, poi_);
+      }
+      if (((bitField0_ & 0x00008000) == 0x00008000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(18, getEventDateBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2441,6 +2485,8 @@ public final class Events {
           poiBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00010000);
+        eventDate_ = "";
+        bitField0_ = (bitField0_ & ~0x00020000);
         return this;
       }
       
@@ -2555,6 +2601,10 @@ public final class Events {
         } else {
           result.poi_ = poiBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00020000) == 0x00020000)) {
+          to_bitField0_ |= 0x00008000;
+        }
+        result.eventDate_ = eventDate_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2635,6 +2685,9 @@ public final class Events {
         }
         if (other.hasPoi()) {
           mergePoi(other.getPoi());
+        }
+        if (other.hasEventDate()) {
+          setEventDate(other.getEventDate());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2776,6 +2829,11 @@ public final class Events {
               }
               input.readMessage(subBuilder, extensionRegistry);
               setPoi(subBuilder.buildPartial());
+              break;
+            }
+            case 146: {
+              bitField0_ |= 0x00020000;
+              eventDate_ = input.readBytes();
               break;
             }
           }
@@ -3488,6 +3546,42 @@ public final class Events {
           poi_ = null;
         }
         return poiBuilder_;
+      }
+      
+      // optional string eventDate = 18;
+      private java.lang.Object eventDate_ = "";
+      public boolean hasEventDate() {
+        return ((bitField0_ & 0x00020000) == 0x00020000);
+      }
+      public String getEventDate() {
+        java.lang.Object ref = eventDate_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          eventDate_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setEventDate(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00020000;
+        eventDate_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearEventDate() {
+        bitField0_ = (bitField0_ & ~0x00020000);
+        eventDate_ = getDefaultInstance().getEventDate();
+        onChanged();
+        return this;
+      }
+      void setEventDate(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00020000;
+        eventDate_ = value;
+        onChanged();
       }
       
       // @@protoc_insertion_point(builder_scope:eu.trentorise.smartcampus.services.trento.events.data.message.TCEvent)
@@ -6681,7 +6775,7 @@ public final class Events {
       "rento.events.data.message.TCEventDescr\"^" +
       "\n\014TCEventDescr\022\021\n\tstartDate\030\001 \002(\t\022\020\n\010cat" +
       "egory\030\002 \002(\t\022\r\n\005title\030\003 \002(\t\022\014\n\004link\030\004 \002(\t" +
-      "\022\014\n\004city\030\005 \002(\t\"\271\002\n\007TCEvent\022\r\n\005title\030\001 \002(" +
+      "\022\014\n\004city\030\005 \002(\t\"\314\002\n\007TCEvent\022\r\n\005title\030\001 \002(" +
       "\t\022\020\n\010dateFrom\030\002 \003(\t\022\016\n\006dateTo\030\003 \003(\t\022\r\n\005p",
       "lace\030\004 \002(\t\022\014\n\004city\030\005 \002(\t\022\014\n\004time\030\006 \002(\t\022\017" +
       "\n\007address\030\007 \001(\t\022\020\n\010category\030\010 \001(\t\022\017\n\007det" +
@@ -6689,20 +6783,21 @@ public final class Events {
       "mail\030\014 \001(\t\022\013\n\003www\030\r \001(\t\022\r\n\005price\030\016 \001(\t\022\024" +
       "\n\014organization\030\017 \001(\t\022\r\n\005notes\030\020 \001(\t\0225\n\003p" +
       "oi\030\021 \001(\0132(.it.sayservice.platform.core.m" +
-      "essage.POI\"\314\001\n\016EventDescrList\022X\n\005event\030\001" +
-      " \003(\0132I.eu.trentorise.smartcampus.service" +
-      "s.trento.events.data.message.EventDescr\022" +
-      "`\n\rmanifestation\030\002 \003(\0132I.eu.trentorise.s",
-      "martcampus.services.trento.events.data.m" +
-      "essage.EventDescr\">\n\nEventDescr\022\014\n\004href\030" +
-      "\001 \002(\t\022\017\n\007keyword\030\002 \002(\t\022\021\n\tshortDesc\030\003 \002(" +
-      "\t\"\221\002\n\005Event\022\n\n\002id\030\001 \002(\t\022\r\n\005title\030\002 \002(\t\022\014" +
-      "\n\004date\030\003 \002(\t\022\r\n\005place\030\004 \002(\t\022\014\n\004time\030\005 \002(" +
-      "\t\022\017\n\007content\030\006 \001(\t\022\022\n\nlastUpdate\030\010 \001(\t\022\013" +
-      "\n\003img\030\t \001(\t\022\020\n\010district\030\n \001(\t\022\014\n\004cost\030\013 " +
-      "\001(\t\022\025\n\rmanifestation\030\014 \001(\t\0225\n\003poi\030\r \001(\0132" +
-      "(.it.sayservice.platform.core.message.PO" +
-      "I\022\021\n\tshortDesc\030\016 \001(\t\022\017\n\007keyword\030\017 \001(\t"
+      "essage.POI\022\021\n\teventDate\030\022 \001(\t\"\314\001\n\016EventD" +
+      "escrList\022X\n\005event\030\001 \003(\0132I.eu.trentorise." +
+      "smartcampus.services.trento.events.data." +
+      "message.EventDescr\022`\n\rmanifestation\030\002 \003(",
+      "\0132I.eu.trentorise.smartcampus.services.t" +
+      "rento.events.data.message.EventDescr\">\n\n" +
+      "EventDescr\022\014\n\004href\030\001 \002(\t\022\017\n\007keyword\030\002 \002(" +
+      "\t\022\021\n\tshortDesc\030\003 \002(\t\"\221\002\n\005Event\022\n\n\002id\030\001 \002" +
+      "(\t\022\r\n\005title\030\002 \002(\t\022\014\n\004date\030\003 \002(\t\022\r\n\005place" +
+      "\030\004 \002(\t\022\014\n\004time\030\005 \002(\t\022\017\n\007content\030\006 \001(\t\022\022\n" +
+      "\nlastUpdate\030\010 \001(\t\022\013\n\003img\030\t \001(\t\022\020\n\010distri" +
+      "ct\030\n \001(\t\022\014\n\004cost\030\013 \001(\t\022\025\n\rmanifestation\030" +
+      "\014 \001(\t\0225\n\003poi\030\r \001(\0132(.it.sayservice.platf" +
+      "orm.core.message.POI\022\021\n\tshortDesc\030\016 \001(\t\022",
+      "\017\n\007keyword\030\017 \001(\t"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -6730,7 +6825,7 @@ public final class Events {
           internal_static_eu_trentorise_smartcampus_services_trento_events_data_message_TCEvent_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_eu_trentorise_smartcampus_services_trento_events_data_message_TCEvent_descriptor,
-              new java.lang.String[] { "Title", "DateFrom", "DateTo", "Place", "City", "Time", "Address", "Category", "Details", "Tel", "Fax", "Mail", "Www", "Price", "Organization", "Notes", "Poi", },
+              new java.lang.String[] { "Title", "DateFrom", "DateTo", "Place", "City", "Time", "Address", "Category", "Details", "Tel", "Fax", "Mail", "Www", "Price", "Organization", "Notes", "Poi", "EventDate", },
               eu.trentorise.smartcampus.services.trento.events.data.message.Events.TCEvent.class,
               eu.trentorise.smartcampus.services.trento.events.data.message.Events.TCEvent.Builder.class);
           internal_static_eu_trentorise_smartcampus_services_trento_events_data_message_EventDescrList_descriptor =

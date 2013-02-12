@@ -35,6 +35,7 @@ message TCEvent {
     optional string notes = 16;
     
     optional it.sayservice.platform.core.message.POI poi = 17;
+    optional string eventDate = 18;
 }
 
 message EventDescrList {

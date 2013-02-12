@@ -375,6 +375,14 @@ public class EventsProtoBean {
       this.poi = poi;
     }
     
+          private String eventDate;
+    public String getEventDate() {
+      return eventDate;
+    }
+    public void setEventDate(String eventDate) {
+      this.eventDate = eventDate;
+    }
+    
     
     public TCEventProtoBean() {
     	super();
@@ -399,6 +407,7 @@ public class EventsProtoBean {
                                     setOrganization(reference.getOrganization());
                                     setNotes(reference.getNotes());
                                     setPoi(new it.sayservice.platform.core.message.CoreProtoBean.POIProtoBean(reference.getPoi()));
+                                    setEventDate(reference.getEventDate());
                       }  
 
     public TCEventProtoBean(XSSData data) throws XSSDataException {
@@ -522,6 +531,13 @@ public class EventsProtoBean {
                           if (!(item instanceof XSSData)) throw new XSSDataException("Incorrect data type for field poi: expected XSSData");
               setPoi(new it.sayservice.platform.core.message.CoreProtoBean.POIProtoBean((XSSData)item));
                       }
+                                if (data.get("eventDate") != null && !data.get("eventDate").isEmpty()) {
+            if (data.get("eventDate").size()>1) throw new XSSDataException("Incorrect data cardinality for field eventDate: expected single value.");
+            
+            Object item = data.get("eventDate").get(0); 
+                            if (!(item instanceof DOMData)) throw new XSSDataException("Incorrect data type for field eventDate: expected DOMData");
+                                  setEventDate(convertToString(((DOMData)item).getStringValue()));
+                                      }
                   }  
 
     
@@ -581,6 +597,9 @@ public class EventsProtoBean {
       }
                                     if (getPoi() != null) {
       	builder.setPoi(getPoi() .buildMessage());
+      }
+                                    if (getEventDate() != null) {
+      	builder.setEventDate(getEventDate());
       }
                         return builder.buildPartial();
     }

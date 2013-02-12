@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataflow xmlns="http://www.example.org/mml-schema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.example.org/mml-schema mml-schema.xsd ">
+
+	<input name="cities" type="String"/>
+	
+    <output />
+
+    <variable name="htmlString" type="String" />
+    <variable name="html" type="org.w3c.dom.Document" />
+    <variable name="dayProto" type="eu.trentorise.smartcampus.services.trento.events.data.message.Events.TCEventPage" />
+    <variable name="descriptors" type="java.util.List&lt;eu.trentorise.smartcampus.services.trento.events.data.message.Events.TCEventDescr&gt;"/>
+    <variable name="dates" type="java.util.List&lt;String&gt;" />		
+    <variable name="pages" type="java.util.List&lt;String&gt;" />				
+    <variable name="eventMsg" type="eu.trentorise.smartcampus.services.trento.events.data.message.Events.TCEvent" />
+	
+    <httpConnector session="required" name="connector" encoding="ISO-8859-1" />
+    <httpConnector session="mandatory" referenceConnector="connector" name="pageConnector" encoding="ISO-8859-1" />
+
+	
+	
+    <script outputVar="dates">
+        <className>eu.trentorise.smartcampus.services.trento.events.scripts.EventsScript</className>
+        <method>getDates</method>
+        <variables>
+        </variables>
+    </script>
+
+    <foreach item="date" itemClass="String" aggregateVariable="eventList" outputVar="output" writeAction="append" writeMethod="addAll">
+		<items>dates</items>        
+		<connect name="c1" connector="connector" outputVar="htmlString" transformer="string">
+			<properties>
+				<property name="url">
+					<value>"http://www.trentinocultura.net/asp_cat/main.asp?data="+date+"&amp;IDProspettiva=35&amp;SearchType=AGENDA_SEARCH&amp;TipoVista=Elenco&amp;Pag=1"</value>
+				</property>
+			</properties>
+		</connect>
+		
+		<script outputVar="html">
+			<className>eu.trentorise.smartcampus.services.trento.events.scripts.EventsScript</className>
+			<method>transformHtml</method>
+			<variables>
+				<value>htmlString</value>
+			</variables>
+		</script>
+
+		<xss key="service/trentoevents/trentinocultura-elenco.xss.xml" outputVar="dayProto">
+			<in>html</in>
+		</xss>  
+
+		
+		<script outputVar="pages">
+			<className>eu.trentorise.smartcampus.services.trento.events.scripts.EventsScript</className>
+			<method>extractPages</method>
+			<variables>
+				<value>dayProto</value>
+			</variables>
+		</script>
+
+		<script outputVar="descriptors">
+			<className>eu.trentorise.smartcampus.services.trento.events.scripts.EventsScript</className>
+			<method>createDescriptors</method>
+			<variables>
+				<value>dayProto</value>
+				<value>cities</value>
+			</variables>
+		</script>
+
+		<foreach item="page" itemClass="String" aggregateVariable="tmp" outputVar="pages">
+			<items>pages</items>        
+			<connect connector="pageConnector" outputVar="htmlString" transformer="string">
+				<properties>
+					<property name="url">
+						<value>"http://www.trentinocultura.net/asp_cat/main.asp?data="+date+"&amp;IDProspettiva=35&amp;SearchType=AGENDA_SEARCH&amp;TipoVista=Elenco&amp;Pag="+page</value>
+					</property>
+				</properties>
+			</connect>
+			
+			<script outputVar="html">
+				<className>eu.trentorise.smartcampus.services.trento.events.scripts.EventsScript</className>
+				<method>transformHtml</method>
+				<variables>
+					<value>htmlString</value>
+				</variables>
+			</script>
+
+			<xss key="service/trentoevents/trentinocultura-elenco.xss.xml" outputVar="dayProto">
+				<in>html</in>
+			</xss>  
+			
+			<script outputVar="descriptors">
+				<className>eu.trentorise.smartcampus.services.trento.events.scripts.EventsScript</className>
+				<method>mergeDescriptors</method>
+				<variables>
+					<value>descriptors</value>
+					<value>dayProto</value>
+					<value>cities</value>
+				</variables>
+			</script>
+
+		</foreach>
+
+		<foreach item="evtDescr" itemClass="eu.trentorise.smartcampus.services.trento.events.data.message.Events.TCEventDescr" aggregateVariable="dayEventList" outputVar="eventList" writeAction="append" writeMethod="addAll">
+			<items>descriptors</items>        
+
+			<connect connector="pageConnector" outputVar="htmlString" transformer="string">
+				<properties>
+					<property name="url">
+						<value>"http://www.trentinocultura.net"+evtDescr.getLink()</value>
+					</property>
+				</properties>
+			</connect>
+
+			<script outputVar="html">
+				<className>eu.trentorise.smartcampus.services.trento.events.scripts.EventsScript</className>
+				<method>transformHtml</method>
+				<variables>
+					<value>htmlString</value>
+				</variables>
+			</script>
+
+			<xss outputVar="eventMsg" key="service/trentoevents/trentinocultura-singolo.xss.xml" type="eu.trentorise.smartcampus.services.trento.events.data.message.Events.TCEvent">
+				<in>html</in>
+			</xss>  
+			
+			<geolocalize outputVar="dayEventList" inputVar="eventMsg" attribute="poi" onError="continue" writeAction="append">
+                <poiName>eventMsg.getPlace()</poiName>
+            </geolocalize>          
+			
+		</foreach>
+	
+	</foreach>
+	
+
+</dataflow>
+ 

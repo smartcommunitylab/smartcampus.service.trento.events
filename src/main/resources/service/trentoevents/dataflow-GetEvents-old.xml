@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataflow xmlns="http://www.example.org/mml-schema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.example.org/mml-schema mml-schema.xsd ">
+
+    <output />
+
+    <variable name="html" type="org.w3c.dom.Document" />
+    <variable name="dayProto" type="eu.trentorise.smartcampus.services.trento.events.data.message.Events.EventDescrList" />
+            
+    <httpConnector name="connector" encoding="UTF-8" />
+
+    <connect name="c1" connector="connector" outputVar="html">
+        <properties>
+            <property name="url">
+                <value>"http://www.comune.trento.it/Citta/Vivi-la-citta/Eventi-in-citta/(day)/9/(month)/2/(year)/2013"</value>
+            </property>
+        </properties>
+    </connect>
+    
+    <xss key="service/trentoevents/day.xml" outputVar="dayProto">
+        <in>html</in>
+    </xss>  
+
+    <foreach item="evtDescr" itemClass="eu.trentorise.smartcampus.services.trento.events.data.message.Events.EventDescr" aggregateVariable="eventList" outputVar="output" writeAction="append" writeMethod="addAll">
+        <items>dayProto.getEventList()</items>        
+
+        <connect connector="connector" outputVar="html">
+            <properties>
+                <property name="url">
+                    <value>"http://www.comune.trento.it"+evtDescr.getHref()</value>
+                </property>
+            </properties>
+        </connect>
+
+        <xss key="service/trentoevents/event.xml" type="eu.trentorise.smartcampus.services.trento.events.data.message.Events.Event" outputVar="eventList" writeAction="append">
+            <in>html</in>
+        </xss>  
+    </foreach>
+
+</dataflow>

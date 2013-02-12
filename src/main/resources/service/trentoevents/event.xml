@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xss:definition main="event" name="event"
+    namespace="http://tempuri.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xss="http://www.sayservice.it/xss" xmlns="http://www.sayservice.it/html">
+
+    <xss:template name="event">
+        <html xss:anyAttrs="true">
+            <head xss:anyContent="true" />
+            <body xss:anyAttrs="true">
+                <xss:path path="//div[@id='main']">
+                    <xss:use-template name="mainDiv" />
+                </xss:path>
+            </body>
+        </html>
+    </xss:template>
+
+    <xss:template name="mainDiv">
+        <div id="main" class="float-break">
+            <div class="overflow-fix">
+                <div class="border-box">
+                    <div class="border-content">
+                        <div class="global-view-full content-view-full">
+                            <div class="class-event">
+                                <h1><xss:anyText label="title"/></h1>
+                                <div class="last-modified">
+                                    <xss:structured-text>
+                                        <xss:text pattern="di "/>
+                                        <xss:anyText label="date"/>
+                                        <xss:text pattern=" - Ultima modifica:"/>                                       
+                                    </xss:structured-text>
+                                    <strong><xss:anyText label="lastUpdate"/></strong>
+                                </div>
+                                <div
+                                    class="attributi-principali float-break col col-notitle">
+                                    <div class="col-content">
+                                        <div class="col-content-design">
+                                            <div class="main-image left">
+                                                <img xss:anyAttrs="true" xss:label="img" xss:labelValue="@src"/>
+                                            </div>
+                                            <p xss:anyContent="true" xss:label="shortDesc" xss:labelValue="."/>
+                                            <div class="date-workflow"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="attributi-base">
+                                    <xss:finally>
+                                        <xss:concat label="content"/>
+                                    </xss:finally>
+                                    <div class="(.)*">
+                                        <div class="col-content">
+                                            <div class="col-content-design" xss:anyContent="true" xss:label="content" xss:labelValue=".">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="(.)*">
+                                        <div class="col-title">
+                                            <span class="label">Informazioni</span>
+                                        </div>
+                                        <div class="col-content">
+                                            <div class="col-content-design" xss:anyContent="true" xss:label="content" xss:labelValue=".">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="(.)*">
+                                        <div class="col-title">
+                                            <span class="label">Costi</span>
+                                        </div>
+                                        <div class="col-content">
+                                            <div class="col-content-design">
+                                              <xss:anyText label="cost"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <xss:optional>                                  
+                                        <div
+                                            class="(.)*">
+                                            <div class="col-title">
+                                                <span class="label">Circoscrizione</span>
+                                            </div>
+                                            <div class="col-content">
+                                                <div class="col-content-design">
+                                                    <a href="(.)*"><xss:anyText label="district"/></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </xss:optional>
+                                    <xss:optional>                                  
+                                        <div class="(.)*">
+                                            <div class="col-title">
+                                                <span class="label">Manifestazione</span>
+                                            </div>
+                                            <div class="col-content">
+                                                <div class="col-content-design">
+                                                    <a href="(.)*"><xss:anyText label="manifestation"/></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </xss:optional>
+                                </div>
+
+                                <div class="attribute-tipafriend">
+                                    <a href="(.)*"
+                                        title="Invia ad un amico">Invia ad un amico</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+    </xss:template>
+
+</xss:definition>

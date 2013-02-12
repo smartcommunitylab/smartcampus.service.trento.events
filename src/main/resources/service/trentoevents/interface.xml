@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-definition xmlns="http://www.example.org/interface-schema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/interface-schema ../interface-schema.xsd ">
+
+	<interface serviceURI="eu.trentorise.smartcampus.services.trento.events.TrentoEvents">
+		<operation name="GetEvents" storable="true">
+			<parameter name="cities" type="String"/>
+			<output type="eu.trentorise.smartcampus.services.trento.events.data.message.Events$Event" repeated="true"/>
+		</operation>
+	</interface>
+
+	<implementation package="eu.trentorise.smartcampus.services.trento.events">
+		<operationImpl name="GetEvents"/>
+	</implementation>
+
+</service-definition>

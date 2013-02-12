@@ -98,9 +98,10 @@ public class EventsScript {
 		return mergeDescriptors(null, pageDescr, cities);
 	}
 
-	public TCEvent updateDate(TCEvent evt, String date) {
+	public TCEvent updateData(TCEvent evt, String date, TCEventDescr descr) {
 		TCEvent.Builder builder = TCEvent.newBuilder(evt);
 		builder.setEventDate(date);
+		builder.setCategory(descr.getCategory());
 		return builder.build();
 	}
 }

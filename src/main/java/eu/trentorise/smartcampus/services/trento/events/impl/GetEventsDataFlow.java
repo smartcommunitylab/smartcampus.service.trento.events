@@ -337,7 +337,7 @@ public class GetEventsDataFlow implements ServiceDataFlow {
 				//Script
 				{
 				try {
-					Object scriptResult8 = (Object)InvokeDataFlowScriptNode.invoke(eu.trentorise.smartcampus.services.trento.events.scripts.EventsScript.class, "updateDate", "eventMsg", contextVariables, serviceExecutionId, serviceMethod);
+					eu.trentorise.smartcampus.services.trento.events.data.message.Events.TCEvent scriptResult8 = (eu.trentorise.smartcampus.services.trento.events.data.message.Events.TCEvent)InvokeDataFlowScriptNode.invoke(eu.trentorise.smartcampus.services.trento.events.scripts.EventsScript.class, "updateData", "eventMsg,date,evtDescr", contextVariables, serviceExecutionId, serviceMethod);
 					dayEventList.add(scriptResult8);
 					contextVariables.put("dayEventList", dayEventList);
 					InvokeVariableValidation.validate(serviceMethod, serviceExecutionId, "dayEventList", dayEventList);
@@ -375,7 +375,7 @@ public class GetEventsDataFlow implements ServiceDataFlow {
 	}
 
 	public Message.Builder getOutputBuilder() {
-		return eu.trentorise.smartcampus.services.trento.events.data.message.Events.Event.newBuilder();
+		return eu.trentorise.smartcampus.services.trento.events.data.message.Events.TCEvent.newBuilder();
 	}
 
 	public void resetXSS() {

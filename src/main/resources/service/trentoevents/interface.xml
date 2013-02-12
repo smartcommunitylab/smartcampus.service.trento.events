@@ -4,7 +4,7 @@
 	<interface serviceURI="eu.trentorise.smartcampus.services.trento.events.TrentoEvents">
 		<operation name="GetEvents" storable="true">
 			<parameter name="cities" type="String"/>
-			<output type="eu.trentorise.smartcampus.services.trento.events.data.message.Events$Event" repeated="true"/>
+			<output type="eu.trentorise.smartcampus.services.trento.events.data.message.Events$TCEvent" repeated="true"/>
 		</operation>
 	</interface>
 

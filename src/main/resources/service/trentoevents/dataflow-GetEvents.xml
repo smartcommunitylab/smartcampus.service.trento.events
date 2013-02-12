@@ -129,9 +129,11 @@
 
             <script outputVar="dayEventList" writeAction="append">
                 <className>eu.trentorise.smartcampus.services.trento.events.scripts.EventsScript</className>
-                <method>updateDate</method>
+                <method>updateData</method>
                 <variables>
                     <value>eventMsg</value>
+                    <value>date</value>
+                    <value>evtDescr</value>
                 </variables>
             </script>
 			

@@ -32,7 +32,7 @@ public class GetEventsServicePersistence extends AbstractMongoPersistence {
 
     @Override
     protected Builder<?> getProtoBuilder() {
-        return eu.trentorise.smartcampus.services.trento.events.data.message.Events.Event .newBuilder();
+        return eu.trentorise.smartcampus.services.trento.events.data.message.Events.TCEvent .newBuilder();
     }
 
     @Override

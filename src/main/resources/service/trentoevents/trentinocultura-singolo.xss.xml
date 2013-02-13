@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xss:definition main="main" name="main" namespace="http://tempuri.org"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xss="http://www.sayservice.it/xss"
-	xmlns="http://www.sayservice.it/html">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xss="http://www.sayservice.it/xss"
+    xmlns="http://www.sayservice.it/html">
 
-	<xss:template name="main">
-		<xss:repeat>
-			<SCRIPT xss:anyAttrs="true" xss:anyContent="true" />
-		</xss:repeat>
-		<html>
-			<xss:path path="//div[@id='PAGE']">
-				<div id="PAGE">
-					<table xss:anyAttrs="true" xss:anyContent="true" />
-					<table xss:anyAttrs="true" xss:anyContent="true" />
-					<table xss:anyAttrs="true" xss:anyContent="true" />
-					<img xss:anyContent="true" xss:anyAttrs="true" />
-					<br />
-					<br />
-					<xss:use-template name="evento" />
-					<p xss:anyContent="true" />
-				</div>
-			</xss:path>
-		</html>
-	</xss:template>
+    <xss:template name="main">
+        <xss:repeat>
+            <SCRIPT xss:anyAttrs="true" xss:anyContent="true" />
+        </xss:repeat>
+        <html>
+            <xss:path path="//div[@id='PAGE']">
+                <div id="PAGE">
+                    <table xss:anyAttrs="true" xss:anyContent="true" />
+                    <table xss:anyAttrs="true" xss:anyContent="true" />
+                    <table xss:anyAttrs="true" xss:anyContent="true" />
+                    <img xss:anyContent="true" xss:anyAttrs="true" />
+                    <br />
+                    <br />
+                    <xss:use-template name="evento" />
+                    <p xss:anyContent="true" />
+                </div>
+            </xss:path>
+        </html>
+    </xss:template>
 
     <xss:template name="tt">
        <xss:repeat>
-	       <xss:finally>
-	          <xss:concat label="time"/>
-	       </xss:finally>
-			<xss:choice>
-			    <br xss:label="time" xss:labelValue="'\n'"/>
-			    <xss:anyText label="time"/>
-			</xss:choice>
+           <xss:finally>
+              <xss:concat label="time"/>
+           </xss:finally>
+            <xss:choice>
+                <br xss:label="time" xss:labelValue="'\n'"/>
+                <xss:anyText label="time"/>
+            </xss:choice>
        </xss:repeat>
        <!-- 
        attempt to recover the time information 
@@ -105,27 +105,27 @@
        -->
     </xss:template>
 
-	<xss:template name="evento">
-		<table border="0" cellpadding="0" cellspacing="0">
-	       <xss:finally>
-	           <xss:concat label="notes"/>
-	       </xss:finally>
-			<tbody>
-				<tr xss:anyAttrs="true" xss:anyContent="true" />
-				<tr xss:anyAttrs="true" xss:anyContent="true" />
-				<tr>
-					<td class='rightBox'><span class='labelScheda'>Titolo:</span></td>
-					<td class='leftBox'><font xss:anyAttrs="true"><strong><xss:anyText label="title"/></strong></font></td>
-				</tr>
-				<tr>
-					<td class='rightBox'><span class='labelScheda'>Date:</span></td>
-					<td class='leftBox'>
-						<table xss:anyAttrs="true">
-						  <tbody>
-    						<tr xss:anyAttrs="true" xss:anyContent="true" />
-							<tr>
-							    <td colspan='2' class='listElementLeft'>
-							        <font size="1">
+    <xss:template name="evento">
+        <table border="0" cellpadding="0" cellspacing="0">
+           <xss:finally>
+               <xss:concat label="notes"/>
+           </xss:finally>
+            <tbody>
+                <tr xss:anyAttrs="true" xss:anyContent="true" />
+                <tr xss:anyAttrs="true" xss:anyContent="true" />
+                <tr>
+                    <td class='rightBox'><span class='labelScheda'>Titolo:</span></td>
+                    <td class='leftBox'><font xss:anyAttrs="true"><strong><xss:anyText label="title"/></strong></font></td>
+                </tr>
+                <tr>
+                    <td class='rightBox'><span class='labelScheda'>Date:</span></td>
+                    <td class='leftBox'>
+                        <table xss:anyAttrs="true">
+                          <tbody>
+                            <tr xss:anyAttrs="true" xss:anyContent="true" />
+                            <tr>
+                                <td colspan='2' class='listElementLeft'>
+                                    <font size="1">
                                         <xss:structured-text>
                                            <xss:text pattern="dal "/>
                                            <xss:text pattern="[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}" label="dateFrom"/> 
@@ -133,94 +133,115 @@
                                            <xss:text pattern="[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}" label="dateTo"/> 
                                            <xss:text pattern="(.)*"/>
                                         </xss:structured-text>   
-							        </font>
-							    </td>
-							</tr>
-							<xss:repeat>
-	                            <tr xss:anyAttrs="true" xss:anyContent="true" />
-	                            <tr>
-	                                <td colspan='2' class='listElementLeft'>
-	                                    <font size="1">
-	                                        <xss:structured-text>
-	                                           <xss:text pattern="dal "/>
-	                                           <xss:text pattern="[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}" label="dateFrom"/> 
-	                                           <xss:text pattern=" al "/>  
-	                                           <xss:text pattern="[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}" label="dateTo"/> 
+                                    </font>
+                                </td>
+                            </tr>
+                            <xss:repeat>
+                                <tr xss:anyAttrs="true" xss:anyContent="true" />
+                                <tr>
+                                    <td colspan='2' class='listElementLeft'>
+                                        <font size="1">
+                                            <xss:structured-text>
+                                               <xss:text pattern="dal "/>
+                                               <xss:text pattern="[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}" label="dateFrom"/> 
+                                               <xss:text pattern=" al "/>  
+                                               <xss:text pattern="[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}" label="dateTo"/> 
                                                <xss:text pattern="(.)*"/>
-	                                        </xss:structured-text>   
-	                                    </font>
-	                                </td>
-	                            </tr>
-							</xss:repeat>
-						  </tbody>	
-						</table>
-					</td>
-				</tr>
-				<xss:optional>
-					<tr>
-						<td class='rightBox'><span class='labelScheda'>Orario:</span></td>
-						<td class='leftBox'>
-						  <xss:choice>
+                                            </xss:structured-text>   
+                                        </font>
+                                    </td>
+                                </tr>
+                            </xss:repeat>
+                          </tbody>  
+                        </table>
+                    </td>
+                </tr>
+                <xss:optional>
+                    <tr>
+                        <td class='rightBox'><span class='labelScheda'>Orario:</span></td>
+                        <td class='leftBox'>
+                          <xss:choice>
                               <xss:use-template name="tt"/>
                                 <font xss:anyAttrs="true">
                                   <xss:use-template name="tt"/>
                                 </font>
-						  </xss:choice>
-						  
-						</td>
-					</tr>
+                          </xss:choice>
+                          
+                        </td>
+                    </tr>
                 </xss:optional>
-				<tr><td class='rightBox'><span class='labelScheda'>Luogo:</span></td>
-					<td class='leftBox'><xss:anyText label="place"/></td>
-				</tr>
+                <tr><td class='rightBox'><span class='labelScheda'>Luogo:</span></td>
+                    <td class='leftBox'><xss:anyText label="place"/></td>
+                </tr>
                 <xss:optional>
-					<tr><td class='rightBox'><span class='labelScheda'>Indirizzo:</span></td>
-	                    <td class='leftBox'><xss:anyText label="address"/></td>
-					</tr>
-				</xss:optional>
-                <xss:optional>
-					<tr>
-						<td class='rightBox'><span class='labelScheda'>Telefono:</span></td>
-						<td class='leftBox'><xss:anyText label="tel"/></td>
-					</tr>
+                    <tr><td class='rightBox'><span class='labelScheda'>Indirizzo:</span></td>
+                        <td class='leftBox'><xss:anyText label="address"/></td>
+                    </tr>
                 </xss:optional>
                 <xss:optional>
-	                <tr>
-	                    <td class='rightBox'><span class='labelScheda'>Fax:</span></td>
-	                    <td class='leftBox'><xss:anyText label="fax"/></td>
-	                </tr>
+                    <tr>
+                        <td class='rightBox'><span class='labelScheda'>Telefono:</span></td>
+                        <td class='leftBox'><xss:anyText label="tel"/></td>
+                    </tr>
                 </xss:optional>
-				<tr>
-					<td class='rightBox'><span class='labelScheda'>Località:</span></td>
+                <xss:optional>
+                    <tr>
+                        <td class='rightBox'><span class='labelScheda'>Fax:</span></td>
+                        <td class='leftBox'><xss:anyText label="fax"/></td>
+                    </tr>
+                </xss:optional>
+                <tr>
+                    <td class='rightBox'><span class='labelScheda'>Località:</span></td>
                     <td class='leftBox'><xss:anyText label="city"/></td>
-				</tr>
+                </tr>
                 <xss:optional>
                     <tr>
                         <td class='rightBox'><span class='labelScheda'>Costo:</span></td>
                         <td class='leftBox'>
-                            <xss:choice>
-                                <xss:anyText  label="price"/>
-                                <font xss:anyAttrs="true" xss:anyContent="true" xss:label="price" xss:labelValue="."/>
-                            </xss:choice>
+                            <xss:repeat>
+                                <xss:finally>
+                                    <xss:concat label="price"/>
+                                </xss:finally>
+                                <xss:choice>
+                                    <br/>
+                                    <xss:anyText  label="price"/>
+                                    <font xss:anyAttrs="true" xss:anyContent="true" xss:label="price" xss:labelValue="."/>
+                                </xss:choice>
+                            </xss:repeat>
                          </td>
                     </tr>
                 </xss:optional>
-				<xss:optional>
-					<tr>
-						<td class='rightBox'><span class='labelScheda'>Note:</span></td>
-						<td class='leftBox' xss:anyContent="true" xss:label="notes" xss:labelValue="./font"></td>
-					</tr>
-				</xss:optional>
+                <xss:optional>
+                    <tr>
+                        <td class='rightBox'><span class='labelScheda'>Note:</span></td>
+                        <td class='leftBox'>
+                            <xss:repeat>
+                                <xss:finally>
+                                    <xss:concat label="notes"/>
+                                </xss:finally>
+                                <xss:choice>
+                                    <br xss:label="notes" xss:labelValue="''"/>
+                                    <xss:anyText  label="notes"/>
+                                    <font xss:anyAttrs="true" xss:anyContent="true" xss:label="notes" xss:labelValue="."/>
+                                </xss:choice>
+                            </xss:repeat>
+                        </td>
+                    </tr>
+                </xss:optional>
                 <xss:optional>
                     <tr>
                         <td class='rightBox'><span class='labelScheda'>Prevendite:</span></td>
                         <td class='leftBox'>
-                            <xss:choice>
-                                <br/>
-                                <xss:anyText  label="notes"/>
-                                <font xss:anyAttrs="true" xss:anyContent="true" xss:label="notes" xss:labelValue="."/>
-                            </xss:choice>
-                        
+                            <xss:repeat>
+                                <xss:finally>
+                                    <xss:concat label="notes"/>
+                                </xss:finally>
+                                <xss:choice>
+                                    <br xss:label="notes" xss:labelValue="''"/>
+                                    <xss:anyText  label="notes"/>
+                                    <font xss:anyAttrs="true" xss:anyContent="true" xss:label="notes" xss:labelValue="."/>
+                                </xss:choice>
+                            </xss:repeat>
                         </td>
                     </tr>
                 </xss:optional>
@@ -234,22 +255,27 @@
                     <tr>
                         <td class='rightBox'><span class='labelScheda'>Altre Informazioni:</span></td>
                         <td class='leftBox'>
-                            <xss:choice>
-                                <br/>
-                                <xss:anyText  label="notes"/>
-	                            <font xss:anyAttrs="true" xss:anyContent="true" xss:label="notes" xss:labelValue="."/>
-                            </xss:choice>
+                            <xss:repeat>
+                                <xss:finally>
+                                    <xss:concat label="notes"/>
+                                </xss:finally>
+                                <xss:choice>
+                                    <br xss:label="notes" xss:labelValue="''"/>
+                                    <xss:anyText  label="notes"/>
+                                    <font xss:anyAttrs="true" xss:anyContent="true" xss:label="notes" xss:labelValue="."/>
+                                </xss:choice>
+                            </xss:repeat>
                          </td>      
                     </tr>
                 </xss:optional>
                 <xss:optional>
-					<tr><td class='rightBox'><span class='labelScheda'>Indirizzo Internet:</span></td>
-						<td class='leftBox'>
-							<font xss:anyAttrs="true">
-								<a xss:anyAttrs="true"><xss:anyText label="www"/></a>
-							</font>
-						</td>
-					</tr>
+                    <tr><td class='rightBox'><span class='labelScheda'>Indirizzo Internet:</span></td>
+                        <td class='leftBox'>
+                            <font xss:anyAttrs="true">
+                                <a xss:anyAttrs="true"><xss:anyText label="www"/></a>
+                            </font>
+                        </td>
+                    </tr>
                 </xss:optional>
                 <xss:optional>
                     <tr><td class='rightBox'><span class='labelScheda'>E-mail:</span></td>
@@ -258,8 +284,8 @@
                         </td>
                     </tr>
                 </xss:optional>
-			</tbody>
-		</table>
-	</xss:template>
+            </tbody>
+        </table>
+    </xss:template>
 
 </xss:definition>

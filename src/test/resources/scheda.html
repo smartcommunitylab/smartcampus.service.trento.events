@@ -1,149 +1,207 @@
 
-<SCRIPT SRC="../bin/jscripts/functions/popup/OpenPopupSuono.js" language="JavaScript1.4" type="text/javascript"></SCRIPT>
+<SCRIPT SRC="../bin/jscripts/functions/popup/OpenPopupSuono.js"
+	language="JavaScript1.4" type="text/javascript"></SCRIPT>
 <script LANGUAGE="JavaScript">
 <!--
-//########################################################################################LP###
-//Verifica versione browser, risoluzione video e cookies abilitati si/no
-//in caso di rrisposta false per uno dei controlli, crea un Msg e lo visualizza tramite Alert
-//#############################################################################################
+	//########################################################################################LP###
+	//Verifica versione browser, risoluzione video e cookies abilitati si/no
+	//in caso di rrisposta false per uno dei controlli, crea un Msg e lo visualizza tramite Alert
+	//#############################################################################################
 
+	//imposto variavile string da inviare all pagina asp
+	var StringVersione = "Vero"
+	var StringRisoluzione = "Vero"
+	var StringCookie = "Vero"
 
+	//_________________________________________________________________________________________________________
+	//Script per verificare la versione di browser
+	//Ver è la variabile che indica la versione minima di Explorer e di Netscape
 
-//imposto variavile string da inviare all pagina asp
-    var StringVersione = "Vero"
-    var StringRisoluzione = "Vero"
-    var StringCookie = "Vero"
+	var Ver = "4";
+	var Modalita;
+	var strMSG = "ATTENZIONE ! Le impostazioni del vostro ambiente non sono ottimali!\n\n Per una corretta visualizzazione del sito è necessario:\n";
 
-//_________________________________________________________________________________________________________
-//Script per verificare la versione di browser
-//Ver è la variabile che indica la versione minima di Explorer e di Netscape
+	if ((navigator.appVersion.substring(0, 1) >= Ver)
+			&& (navigator.appName == "Microsoft Internet Explorer")) {
+		Modalita = ">=IE" + Ver;
+	} else if ((navigator.appVersion.substring(0, 1) >= Ver)
+			&& (navigator.appName == "Netscape")) {
+		Modalita = ">=NET" + Ver;
+	} else
+		Modalita = "ALTRO";
 
-var Ver = "4";
-var Modalita;
-var strMSG = "ATTENZIONE ! Le impostazioni del vostro ambiente non sono ottimali!\n\n Per una corretta visualizzazione del sito è necessario:\n";
+	if (Modalita == "ALTRO")
+		StringVersione = "Falso"
+		//window.location="../menu1.html";
+		//_________________________________________________________________________________________________________
+		// Script per Controllare la risoluzione.
+		// La risoluzione ottimale è definita dalle variabili LL e HH
 
-if ((navigator.appVersion.substring(0,1)>=Ver) && (navigator.appName=="Microsoft Internet Explorer"))
-    {
-    Modalita=">=IE" + Ver;
-    }
-else if ((navigator.appVersion.substring(0,1)>=Ver) && (navigator.appName=="Netscape"))
-    {
-    Modalita=">=NET" + Ver;
-    }
-else
-    Modalita="ALTRO";
+	var LL = 800
+	var HH = 600
 
-if (Modalita=="ALTRO")
-    StringVersione = "Falso"
-    //window.location="../menu1.html";
-//_________________________________________________________________________________________________________
-// Script per Controllare la risoluzione.
-// La risoluzione ottimale è definita dalle variabili LL e HH
+	// Se la risoluzione è diversa da quella richiesta allora apri la pagina corrispondente
+	if ((screen.width < LL) | (screen.height < HH)) {
+		StringRisoluzione = "Falso";
+	}
 
- var LL = 800
- var HH = 600 
+	//_________________________________________________________________________________________________________
 
-// Se la risoluzione è diversa da quella richiesta allora apri la pagina corrispondente
- if ((screen.width < LL)|(screen.height < HH)){
-    StringRisoluzione="Falso";
- }
+	// Script per verificare se sono abilitati i cookies
 
-//_________________________________________________________________________________________________________
+	function LeggiCookie(nome) {
+		var fine = 0;
+		var result = 0;
+		var mioCookie = " " + document.cookie + ";";
+		var cercaNome = " " + nome + "=";
+		var start = mioCookie.indexOf(cercaNome);
+		if (start > -1) {
+			start += cercaNome.length;
+			fine = mioCookie.indexOf(";", start);
+			if (fine > -1)
+				result = unescape(mioCookie.substring(start, fine));
+		}
+		return result;
+	}
+	function ScriviCookie(nome, valore, expires) {
+		var expString = ((expires == 0) ? "" : ("; expires =" + expires
+				.toGMTString()));
+		document.cookie = nome + "=" + (valore == 0 ? "" : escape(valore))
+				+ expString;
+	}
+	function ClearCookie(nome) {
+		var expData = new Date();
+		ScriviCookie(nome, 0, 0);
+	}
+	function TestCookies() {
+		var data = new Date();
+		var valore = "TEST_COOKIES";
+		ScriviCookie("TestCookies", valore, 0);
+		var ValoreCookie = LeggiCookie("TestCookies");
+		ClearCookie("TestCookies");
+		if (ValoreCookie == 0 || ValoreCookie != valore)
+			StringCookie = "Falso";
+	}
+	TestCookies();
+	//_________________________________________________________________________________________________________
 
-// Script per verificare se sono abilitati i cookies
+	if ((StringVersione == "Falso") | (StringRisoluzione == "Falso")
+			| (StringCookie == "Falso")) {
 
-    function LeggiCookie(nome) {
-        var fine = 0;
-        var result = 0;
-        var mioCookie = " " + document.cookie + ";";
-        var cercaNome = " " + nome + "=";
-        var start = mioCookie.indexOf(cercaNome);
-        if (start > -1) {
-            start += cercaNome.length;
-            fine = mioCookie.indexOf(";", start);
-            if (fine > -1) result = unescape(mioCookie.substring(start, fine));
-        }
-        return result;
-    }
-    function ScriviCookie(nome, valore, expires) {
-        var expString = ((expires == 0) ? "" : ("; expires =" + expires.toGMTString()));
-        document.cookie = nome + "=" + (valore == 0 ? "" : escape(valore)) + expString;
-    }
-    function ClearCookie(nome) {
-        var expData = new Date();
-        ScriviCookie(nome, 0, 0);
-    }
-    function TestCookies() {
-        var data = new Date();
-        var valore = "TEST_COOKIES";
-        ScriviCookie("TestCookies", valore, 0);
-        var ValoreCookie = LeggiCookie("TestCookies");
-        ClearCookie("TestCookies");
-        if(ValoreCookie == 0 || ValoreCookie != valore) StringCookie = "Falso";
-    }
-    TestCookies();
-//_________________________________________________________________________________________________________
+		if (StringVersione == "Falso")
+			strMSG = strMSG
+					+ "- Utilizzare una versione più recente del Browser attualmente in uso\n";
 
-    if ((StringVersione == "Falso")|(StringRisoluzione == "Falso")|(StringCookie == "Falso")) {
+		if (StringRisoluzione == "Falso")
+			strMSG = strMSG
+					+ "- Impostare la risoluzione video almeno a 800x600 pixel\n"
 
-        if (StringVersione == "Falso") strMSG = strMSG + "- Utilizzare una versione più recente del Browser attualmente in uso\n";
- 
-        if (StringRisoluzione == "Falso") strMSG = strMSG + "- Impostare la risoluzione video almeno a 800x600 pixel\n"
+		if (StringCookie == "Falso")
+			strMSG = strMSG
+					+ "- Consentire i cookies anche non memorizzati sul computer"
 
-        if (StringCookie == "Falso") strMSG = strMSG + "- Consentire i cookies anche non memorizzati sul computer"
+		alert(strMSG)
 
-        alert(strMSG)
-
-    }
-
+	}
 //-->
 </script>
 
-<!--include File = "/bin/include/session/setSession.inc"--><!--include File = "/bin/include/session/getSession.inc"--><!-- include file  = "../../database/comunicationDbManagement.inc" --><!-- include file  = "../../database/recordSetManagement.inc" --><!-- include file  = "../../sql/setStatement.inc" --><!-- include file  = "getSqlVista.inc" --><!-- include file  = "../getIdProspettiva.inc" --><!-- include file  = "../../application/getApplication.inc" --><!-- include file  = "../../session/getSessionDictionary.inc" --><!-- include file  = "../../session/setSession.inc" --><SCRIPT LANGUAGE="JavaScript">
-    function callURL(ind,val) {
-        if (ind > 0) window.parent.location = val;
-    }
+<!--include File = "/bin/include/session/setSession.inc"-->
+<!--include File = "/bin/include/session/getSession.inc"-->
+<!-- include file  = "../../database/comunicationDbManagement.inc" -->
+<!-- include file  = "../../database/recordSetManagement.inc" -->
+<!-- include file  = "../../sql/setStatement.inc" -->
+<!-- include file  = "getSqlVista.inc" -->
+<!-- include file  = "../getIdProspettiva.inc" -->
+<!-- include file  = "../../application/getApplication.inc" -->
+<!-- include file  = "../../session/getSessionDictionary.inc" -->
+<!-- include file  = "../../session/setSession.inc" -->
+<SCRIPT LANGUAGE="JavaScript">
+	function callURL(ind, val) {
+		if (ind > 0)
+			window.parent.location = val;
+	}
 </SCRIPT>
 
-<!-- include File = "buttons/createPbIpac.inc"--><!-- include File = "buttons/createPbGoTo.inc"--><!-- include file  = "../../session/getSession.inc" -->
+<!-- include File = "buttons/createPbIpac.inc"-->
+<!-- include File = "buttons/createPbGoTo.inc"-->
+<!-- include file  = "../../session/getSession.inc" -->
 
 <SCRIPT LANGUAGE='JavaScript'>
 <!--
+	function checkValue(hForm, sInputName, nMin, nMax) {
 
-function checkValue(hForm, sInputName, nMin, nMax) {
+		var sValue;
 
-    var sValue;
-    
-    // sValue = hForm.elements[0].value;
-    sValue = hForm[sInputName].value;
-    sValue = Number(sValue);
+		// sValue = hForm.elements[0].value;
+		sValue = hForm[sInputName].value;
+		sValue = Number(sValue);
 
-    if (isNaN(sValue)) {
-        alert("Va inserito un valore numerico");
-        return false;
-    }
-    else {
-        if (nMin <= sValue && sValue <= nMax) {
-            return true;
-        }
-        else {
-            alert("Va inserito un valore numerico compreso tra " + nMin + " e " + nMax);
-            return false;
-        }
-    }
-}
+		if (isNaN(sValue)) {
+			alert("Va inserito un valore numerico");
+			return false;
+		} else {
+			if (nMin <= sValue && sValue <= nMax) {
+				return true;
+			} else {
+				alert("Va inserito un valore numerico compreso tra " + nMin
+						+ " e " + nMax);
+				return false;
+			}
+		}
+	}
 //-->
 </SCRIPT>
 
-<!-- include file  = "../../database/comunicationDbManagement.inc" --><!-- include file  = "../../application/getApplication.inc" --><!-- include file  = "/bin/include/database/recordSetManagement.inc" --><!-- include File = "/bin/include/application/getApplication.inc"--><!-- include file  = "/bin/include/database/recordSetManagement.inc" --><!-- include File = "/bin/include/application/getApplication.inc"--><!-- include File = "/bin/include/functions/date/dateFormatManagement.inc"--><!-- include file  = "/bin/include/database/recordSetManagement.inc" --><!-- include File = "/bin/include/application/getApplication.inc"--><!-- include File = "/bin/include/functions/date/dateFormatManagement.inc"--><!-- include file  = "/bin/include/database/recordSetManagement.inc" --><!-- include File = "/bin/include/application/getApplication.inc"--><!-- include File = "/bin/include/functions/date/dateFormatManagement.inc"--><!-- include file  = "../bin/include/functions/generateHtml.inc" --><!-- include file  = "../bin/include/functions/getDataFromEntityRelated.inc" --><!-- include file  = "/bin/include/database/recordSetManagement.inc" --><!-- include File = "/bin/include/application/getApplication.inc"--><!-- include File = "/bin/include/functions/date/dateFormatManagement.inc"--><!--include File = "/bin/include/application/getApplication.inc"--><!--include File = "/bin/include/functions/date/dateFormatManagement.inc"--><!--include File = "/bin/include/functions/formatApici.inc"--><!--include File = "/bin/include/application/getApplication.inc"--><!--include File = "/bin/include/functions/date/dateFormatManagement.inc"--><!--include File = "/bin/include/functions/formatApici.inc"--><!--include File = "/bin/include/session/setSession.inc"--><!--include File = "/bin/include/session/getSession.inc"--><!--include File = "../../../include/application/getApplication.inc"--><!--include File = "../../../include/database/comunicationDbManagement.inc"--><!--include File = "../../../include/sql/setStatement.inc"--><!--include File = "../../../include/database/recordSetManagement.inc"--><!-- "../../application/getApplication.inc" -->
+<!-- include file  = "../../database/comunicationDbManagement.inc" -->
+<!-- include file  = "../../application/getApplication.inc" -->
+<!-- include file  = "/bin/include/database/recordSetManagement.inc" -->
+<!-- include File = "/bin/include/application/getApplication.inc"-->
+<!-- include file  = "/bin/include/database/recordSetManagement.inc" -->
+<!-- include File = "/bin/include/application/getApplication.inc"-->
+<!-- include File = "/bin/include/functions/date/dateFormatManagement.inc"-->
+<!-- include file  = "/bin/include/database/recordSetManagement.inc" -->
+<!-- include File = "/bin/include/application/getApplication.inc"-->
+<!-- include File = "/bin/include/functions/date/dateFormatManagement.inc"-->
+<!-- include file  = "/bin/include/database/recordSetManagement.inc" -->
+<!-- include File = "/bin/include/application/getApplication.inc"-->
+<!-- include File = "/bin/include/functions/date/dateFormatManagement.inc"-->
+<!-- include file  = "../bin/include/functions/generateHtml.inc" -->
+<!-- include file  = "../bin/include/functions/getDataFromEntityRelated.inc" -->
+<!-- include file  = "/bin/include/database/recordSetManagement.inc" -->
+<!-- include File = "/bin/include/application/getApplication.inc"-->
+<!-- include File = "/bin/include/functions/date/dateFormatManagement.inc"-->
+<!--include File = "/bin/include/application/getApplication.inc"-->
+<!--include File = "/bin/include/functions/date/dateFormatManagement.inc"-->
+<!--include File = "/bin/include/functions/formatApici.inc"-->
+<!--include File = "/bin/include/application/getApplication.inc"-->
+<!--include File = "/bin/include/functions/date/dateFormatManagement.inc"-->
+<!--include File = "/bin/include/functions/formatApici.inc"-->
+<!--include File = "/bin/include/session/setSession.inc"-->
+<!--include File = "/bin/include/session/getSession.inc"-->
+<!--include File = "../../../include/application/getApplication.inc"-->
+<!--include File = "../../../include/database/comunicationDbManagement.inc"-->
+<!--include File = "../../../include/sql/setStatement.inc"-->
+<!--include File = "../../../include/database/recordSetManagement.inc"-->
+<!-- "../../application/getApplication.inc" -->
 
 
-<!-- include file  = "/bin/include/database/comunicationDbManagement.inc" --><!-- include file  = "/bin/include/database/recordSetManagement.inc" --><!-- include file  = "/bin/include/sql/setStatement.inc" --><!-- include file  = "/bin/include/application/getApplication.inc" --><!-- include file  = "/bin/include/   getSqlVista.inc" --><!-- include file  = "../getIdProspettiva.inc" -->
+<!-- include file  = "/bin/include/database/comunicationDbManagement.inc" -->
+<!-- include file  = "/bin/include/database/recordSetManagement.inc" -->
+<!-- include file  = "/bin/include/sql/setStatement.inc" -->
+<!-- include file  = "/bin/include/application/getApplication.inc" -->
+<!-- include file  = "/bin/include/   getSqlVista.inc" -->
+<!-- include file  = "../getIdProspettiva.inc" -->
 <!-- include file  = "../../grafica/createLocation.inc" -->
 <!-- include file  = "../../database/populateLocation.inc" -->
 <!-- include file  = "locationManagement.inc" -->
 
-<!-- include file  = "timelineManagement.inc" --><!-- include file  = "../../database/populateTimeline.inc" --><!-- include file  = "../../grafica/createTimeLine.inc" --><!--map--><!-- tab --><!--tab1-->
+<!-- include file  = "timelineManagement.inc" -->
+<!-- include file  = "../../database/populateTimeline.inc" -->
+<!-- include file  = "../../grafica/createTimeLine.inc" -->
+<!--map-->
+<!-- tab -->
+<!--tab1-->
 <!-- bInnerJoin = False -->
 
 <!-- sSearchType =  -->
@@ -152,7 +210,7 @@ function checkValue(hForm, sInputName, nMin, nMax) {
 
 <!-- Carico i dati tramite SLICE_DATA -->
 
-<!-- Avvio la Stored Procedure: 14.28.53 -->
+<!-- Avvio la Stored Procedure: 10.49.45 -->
 
 <!-- sBrand = DB_ORACLE -->
 
@@ -162,27 +220,27 @@ function checkValue(hForm, sInputName, nMin, nMax) {
 
 <!-- sSqlKey = SELECT COMUNE, TITOLO, IDOBJ, TIPOLOGIA, LUOGO, DATA_INIZIO, ORARIO, INDIRIZZO, N_FAX, N_TELEFONO,  ABBONAMENTI, PREZZO, NOTE, URL, DESCRIZIONE,  PREVENDITE, ALTRIORGANIZZATORI, ALTREINFORMAZIONI, E_MAIL FROM PCTVEVE -->
 
-<!-- sSqlFindKey = SELECT PCTVEVE.IDOBJ FROM PCTVEVE WHERE (((DATA_INIZIO <= '15/Feb/2013' AND DATA_FINE >='15/Feb/2013'))) AND ((PCTVEVE.CONVALIDA = 3)) ORDER BY DECODE(UPPER(COMUNE),'TRENTO',' 1',COMUNE), DATA_INIZIO DESC, IDOBJ -->
+<!-- sSqlFindKey = SELECT PCTVEVE.IDOBJ FROM PCTVEVE WHERE (((DATA_INIZIO <= '19/Feb/2013' AND DATA_FINE >='19/Feb/2013'))) AND ((PCTVEVE.CONVALIDA = 3)) ORDER BY DECODE(UPPER(COMUNE),'TRENTO',' 1',COMUNE), DATA_INIZIO DESC, IDOBJ -->
 
-<!-- sSqlCount = SELECT COUNT(PCTVEVE.IDOBJ) FROM PCTVEVE WHERE (((DATA_INIZIO <= '15/Feb/2013' AND DATA_FINE >='15/Feb/2013'))) AND ((PCTVEVE.CONVALIDA = 3)) -->
+<!-- sSqlCount = SELECT COUNT(PCTVEVE.IDOBJ) FROM PCTVEVE WHERE (((DATA_INIZIO <= '19/Feb/2013' AND DATA_FINE >='19/Feb/2013'))) AND ((PCTVEVE.CONVALIDA = 3)) -->
 
 <!-- nRowStart = 3 -->
 
 <!-- nRowEnd = 3 -->
 
-<!-- Ho terminato la Stored Procedure: 14.28.55; bReturn = True -->
+<!-- Ho terminato la Stored Procedure: 10.49.47; bReturn = True -->
 
-<!-- sIdObjList = 2467400 -->
+<!-- sIdObjList = 2466739 -->
 
-<!-- nCount = 85 -->
+<!-- nCount = 52 -->
 
-<!-- Apro il recordset per il recupero dei dati: 14.28.55 -->
+<!-- Apro il recordset per il recupero dei dati: 10.49.47 -->
 
-<!-- sSql = SELECT COMUNE, TITOLO, IDOBJ, TIPOLOGIA, LUOGO, DATA_INIZIO, ORARIO, INDIRIZZO, N_FAX, N_TELEFONO,  ABBONAMENTI, PREZZO, NOTE, URL, DESCRIZIONE,  PREVENDITE, ALTRIORGANIZZATORI, ALTREINFORMAZIONI, E_MAIL FROM PCTVEVE WHERE PCTVEVE.IDOBJ IN (2467400) ORDER BY DECODE(UPPER(COMUNE),'TRENTO',' 1',COMUNE), DATA_INIZIO DESC, IDOBJ -->
+<!-- sSql = SELECT COMUNE, TITOLO, IDOBJ, TIPOLOGIA, LUOGO, DATA_INIZIO, ORARIO, INDIRIZZO, N_FAX, N_TELEFONO,  ABBONAMENTI, PREZZO, NOTE, URL, DESCRIZIONE,  PREVENDITE, ALTRIORGANIZZATORI, ALTREINFORMAZIONI, E_MAIL FROM PCTVEVE WHERE PCTVEVE.IDOBJ IN (2466739) ORDER BY DECODE(UPPER(COMUNE),'TRENTO',' 1',COMUNE), DATA_INIZIO DESC, IDOBJ -->
 
-<!-- Ho aperto il recordset per il recupero dei dati: 14.28.55 con esito bReturn = True -->
+<!-- Ho aperto il recordset per il recupero dei dati: 10.49.47 con esito bReturn = True -->
 
-<!-- nIdObj = 2467400 -->
+<!-- nIdObj = 2466739 -->
 
 <!-- nTypeStatus = 102 -->
 
@@ -200,7 +258,7 @@ function checkValue(hForm, sInputName, nMin, nMax) {
 <HTML>
 <HEAD>
 <TITLE>Scheda di dettaglio</TITLE>
-<BASE TARGET = "_top">
+<BASE TARGET="_top">
 <SCRIPT SRC="/bin/jscripts/openWindow.js"></SCRIPT>
 <SCRIPT SRC="/bin/jscripts/cercaImmagine.js"></SCRIPT>
 <!-- include File = "../../session/setSingleCounter.inc"-->
@@ -211,11 +269,13 @@ function checkValue(hForm, sInputName, nMin, nMax) {
 <LINK REL="stylesheet" TYPE="text/css" HREF="/bin/stylesheet/head.css">
 
 <LINK REL="stylesheet" TYPE="text/css" HREF="/bin/stylesheet/pct.css">
-<LINK REL="stylesheet" TYPE="text/css" HREF="/bin/stylesheet/iniziative/iniziative.css">
+<LINK REL="stylesheet" TYPE="text/css"
+	HREF="/bin/stylesheet/iniziative/iniziative.css">
 <LINK REL="stylesheet" TYPE="text/css" HREF="/bin/stylesheet/onlyIE.css">
 
 
 <SCRIPT LANGUAGE="JavaScript1.2">
+	
 var browserName=navigator.appName;
 var browserVersion=navigator.userAgent.substr(navigator.userAgent.search('/')+1,3);
 
@@ -276,304 +336,560 @@ function setTimer(mSec) {
     clearTimeout(timer);
     timer=setTimeout('setImage()',mSec);
 }    
+
 </SCRIPT>
 <script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push([ '_setAccount', 'UA-20148386-1' ]);
+	_gaq.push([ '_trackPageview' ]);
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-20148386-1']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
+	(function() {
+		var ga = document.createElement('script');
+		ga.type = 'text/javascript';
+		ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl'
+				: 'http://www')
+				+ '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0];
+		s.parentNode.insertBefore(ga, s);
+	})();
 </script>
 
-    <!-- *@*@   8 -->
+<!-- *@*@   8 -->
 </HEAD>
 
 <BODY>
 
 
-<div ID="head">
+	<div ID="head">
 
-<div ID="radiciLayer">
-    <IMG BORDER="0" SRC="/images/head/q_arancio.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/radici/storia/storia_ind_h.asp">La storia del Trentino</a>
-    <IMG BORDER="0" SRC="/images/head/q_arancio.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/radici/personaggi/pers_ind_h.asp">Personaggi ed autori</a>
-</div>
-
-
-<div ID="territorioLayer">
-    <IMG BORDER="0" SRC="/images/head/q_verde.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/territorio/toponomastica/cat_toponomastica_h.asp">Toponomastica</a>
-</div>
+		<div ID="radiciLayer">
+			<IMG BORDER="0" SRC="/images/head/q_arancio.gif" WIDTH="8" HEIGHT="4"
+				alt=""><a href="/radici/storia/storia_ind_h.asp">La storia
+				del Trentino</a> <IMG BORDER="0" SRC="/images/head/q_arancio.gif"
+				WIDTH="8" HEIGHT="4" alt=""><a
+				href="/radici/personaggi/pers_ind_h.asp">Personaggi ed autori</a>
+		</div>
 
 
-<div ID="orizzontiLayer">
-    <IMG BORDER="0" SRC="/images/head/q_celeste.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/orizzonti/edit_online/edit_online_ind_h.asp">Editoria on line</a>
-    <IMG BORDER="0" SRC="/images/head/q_celeste.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/orizzonti/hp_notizie.asp">Notizie</a>
-</div>
+		<div ID="territorioLayer">
+			<IMG BORDER="0" SRC="/images/head/q_verde.gif" WIDTH="8" HEIGHT="4"
+				alt=""><a
+				href="/territorio/toponomastica/cat_toponomastica_h.asp">Toponomastica</a>
+		</div>
 
 
-<div ID="catalogoLayer">
-    <IMG BORDER="0" SRC="/images/head/q_rosso.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/catalogo/beni_cult/beni_cult.asp">Catalogo dei Beni Culturali</a>
-    <IMG BORDER="0" SRC="/images/head/q_rosso.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/catalogo/cat_biblio/cat_biblio_h.asp">Catalogo Bibliografico Trentino</a>
-    <IMG BORDER="0" SRC="/images/head/q_rosso.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/catalogo/cat_fondi_arch/cat_fondi_arch_h.asp">Inventario dei fondi archivistici</a>
-    <IMG BORDER="0" SRC="/images/head/q_rosso.gif" WIDTH="8" HEIGHT="4" alt=""><a href="http://tcu-test.infotn.it/portal/server.pt?open=514&objID=16392&mode=2">Manoscritti musicali trentini</a>
-    <IMG BORDER="0" SRC="/images/head/q_rosso.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/catalogo/pers_aut/pers_ind_h.asp">Personaggi e autori</a>
-    <IMG BORDER="0" SRC="/images/head/q_rosso.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/catalogo/banche_dati/banche_dati.asp">Le banche dati</a>
-</div>
+		<div ID="orizzontiLayer">
+			<IMG BORDER="0" SRC="/images/head/q_celeste.gif" WIDTH="8" HEIGHT="4"
+				alt=""><a href="/orizzonti/edit_online/edit_online_ind_h.asp">Editoria
+				on line</a> <IMG BORDER="0" SRC="/images/head/q_celeste.gif" WIDTH="8"
+				HEIGHT="4" alt=""><a href="/orizzonti/hp_notizie.asp">Notizie</a>
+		</div>
 
 
-<div ID="iniziativeLayer">
-    <IMG BORDER="0" SRC="/images/head/q_fuxia.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/asp_cat/main.asp?IDProspettiva=35&SearchType=AGENDA_SEARCH&Pag=1&TipoVista=AGENDA&cmd=new">Agenda del giorno</a>
-    <IMG BORDER="0" SRC="/images/head/q_fuxia.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/asp_cat/main.asp?IDProspettiva=42&TipoVista=ElencoImg&cmd=new">Da non perdere...</a>
-    <IMG BORDER="0" SRC="/images/head/q_fuxia.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/asp_cat/main.asp?IDProspettiva=28&SearchType=AGENDA_SEARCH&Pag=1&TipoVista=AGENDA&cmd=new">Mostre</a>
-    <IMG BORDER="0" SRC="/images/head/q_fuxia.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/asp_cat/main.asp?IDProspettiva=14&SearchType=AGENDA_SEARCH&Pag=1&TipoVista=AGENDA&cmd=new">Manifestazioni ed eventi</a>
-    <IMG BORDER="0" SRC="/images/head/q_fuxia.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/asp_cat/main.asp?IDProspettiva=29&SearchType=AGENDA_SEARCH&Pag=1&TipoVista=AGENDA&cmd=new">Musica</a>
-    <IMG BORDER="0" SRC="/images/head/q_fuxia.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/asp_cat/main.asp?IDProspettiva=27&SearchType=AGENDA_SEARCH&Pag=1&TipoVista=AGENDA&cmd=new">Teatro</a>
-    <IMG BORDER="0" SRC="/images/head/q_fuxia.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/asp_cat/main.asp?IDProspettiva=30&SearchType=AGENDA_SEARCH&Pag=1&TipoVista=AGENDA&cmd=new">Danza</a>
-    <IMG BORDER="0" SRC="/images/head/q_fuxia.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/asp_cat/main.asp?IDProspettiva=31&SearchType=AGENDA_SEARCH&Pag=1&TipoVista=AGENDA&cmd=new">Cinema</a>
-    <IMG BORDER="0" SRC="/images/head/q_fuxia.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/asp_cat/main.asp?IDProspettiva=36&SearchType=AGENDA_SEARCH&Pag=1&TipoVista=AGENDA&cmd=new">Convegni</a>
-</div>
+		<div ID="catalogoLayer">
+			<IMG BORDER="0" SRC="/images/head/q_rosso.gif" WIDTH="8" HEIGHT="4"
+				alt=""><a href="/catalogo/beni_cult/beni_cult.asp">Catalogo
+				dei Beni Culturali</a> <IMG BORDER="0" SRC="/images/head/q_rosso.gif"
+				WIDTH="8" HEIGHT="4" alt=""><a
+				href="/catalogo/cat_biblio/cat_biblio_h.asp">Catalogo
+				Bibliografico Trentino</a> <IMG BORDER="0"
+				SRC="/images/head/q_rosso.gif" WIDTH="8" HEIGHT="4" alt=""><a
+				href="/catalogo/cat_fondi_arch/cat_fondi_arch_h.asp">Inventario
+				dei fondi archivistici</a> <IMG BORDER="0"
+				SRC="/images/head/q_rosso.gif" WIDTH="8" HEIGHT="4" alt=""><a
+				href="http://tcu-test.infotn.it/portal/server.pt?open=514&objID=16392&mode=2">Manoscritti
+				musicali trentini</a> <IMG BORDER="0" SRC="/images/head/q_rosso.gif"
+				WIDTH="8" HEIGHT="4" alt=""><a
+				href="/catalogo/pers_aut/pers_ind_h.asp">Personaggi e autori</a> <IMG
+				BORDER="0" SRC="/images/head/q_rosso.gif" WIDTH="8" HEIGHT="4"
+				alt=""><a href="/catalogo/banche_dati/banche_dati.asp">Le
+				banche dati</a>
+		</div>
 
 
-<div ID="percorsiLayer">
-
-    <IMG BORDER="0" SRC="/images/head/q_blu.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/percorsi/territorio/territorio_h.asp">Percorsi sul territorio</a>
-    <IMG BORDER="0" SRC="/images/head/q_blu.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/percorsi/virtuali/virtuali_h.asp">Percorsi virtuali</a>
-</div>
-
-
-<div ID="soggettiLayer">
-    <IMG BORDER="0" SRC="/images/head/q_giallo.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/soggetti/pat/pat_ind_h.asp">La Provincia Autonoma di Trento</a>
-    <IMG BORDER="0" SRC="/images/head/q_giallo.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/soggetti/musei/musei_ind_h.asp">I Musei</a>
-    <IMG BORDER="0" SRC="/images/head/q_giallo.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/soggetti/ecomusei/ecomusei_ind_h.asp">Gli Ecomusei</a>
-    <IMG BORDER="0" SRC="/images/head/q_giallo.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/soggetti/parchi/parchi_ind_h.asp">I Parchi</a>
-    <IMG BORDER="0" SRC="/images/head/q_giallo.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/soggetti/biblio/biblio_ind_h.asp">Le Biblioteche</a>
-    <IMG BORDER="0" SRC="/images/head/q_giallo.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/soggetti/archivi/arch_ind_h.asp">Gli Archivi</a>
-    <IMG BORDER="0" SRC="/images/head/q_giallo.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/soggetti/universita/univ_ind_h.asp">L'Università</a>
-    <IMG BORDER="0" SRC="/images/head/q_giallo.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/soggetti/enti_ric/enti_ric_ind_h.asp">Enti di ricerca</a>
-    <IMG BORDER="0" SRC="/images/head/q_giallo.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/soggetti/associazioni/ass_ind_h.asp">Le Associazioni</a>
-    <IMG BORDER="0" SRC="/images/head/q_giallo.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/soggetti/con_mus/con_mus_ind_h.asp">Conservatorio e Scuole Musicali</a>
-    <IMG BORDER="0" SRC="/images/head/q_giallo.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/soggetti/santa_chiara/santa_chiara_h.asp">Centro Servizi Culturali S. Chiara</a>
-</div>
-
-<div ID="serviziLayer">
-    <IMG BORDER="0" SRC="/images/head/q_viola.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/servizi/info_gen/info_gen_h.asp">Informazioni generali</a>
-    <IMG BORDER="0" SRC="/images/head/q_viola.gif" WIDTH="8" HEIGHT="4" alt=""><a href="http://www1.trentinocultura.net/portal/server.pt?open=512&objID=276&mode=2">Area riservata</a>
-</div>
-
-
-<div ID="mappasitoLayer">
-    <IMG BORDER="0" SRC="/images/head/q_azzurro.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/mappasito/mappa_corpo.asp">Mappa del Sito</a>
-    <IMG BORDER="0" SRC="/images/head/q_azzurro.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/mappasito/mappa_alfa.asp">Indice Analitico</a>
-    <IMG BORDER="0" SRC="/images/head/q_azzurro.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/asp_cat/main.asp?IDProspettiva=43&Pag=1&TipoVista=News&SearchType=NEWS_SEARCH&cmd=new">Novità del portale</a>
-    <IMG BORDER="0" SRC="/images/head/q_azzurro.gif" WIDTH="8" HEIGHT="4" alt=""><a href="/mappasito/ricerca_libera/ricerca_libera_ind.asp">Ricerca libera</a>
-</div>
-
-  <table border="0" cellpadding="0" cellspacing="0" width="100%">
-    <tr>
-      <td valign="top" align="left" nowrap><IMG BORDER="0" SRC="/images/head/iniziative/iniziative/iniziative_up.gif" width="147" height="13" alt=""><a href="/radici/hp_radici.asp" target="_top" onMouseover="show('radici','iniziative')"><img name="radici" id="radici" border="0" src="/images/head/radici_off.gif" alt=""></a><a href="/territorio/hp_territorio.asp" target="_top" onMouseover="show('territorio','iniziative')"><img name="territorio" id="territorio" border="0" src="/images/head/territorio_off.gif" alt=""></a><a href="/orizzonti/hp_orizzonti.asp" target="_top" onMouseover="show('orizzonti','iniziative')"><img name="orizzonti" id="orizzonti" border="0" src="/images/head/orizzonti_off.gif" alt=""></a><a href="/catalogo/hp_catalogo.asp" target="_top" onMouseover="show('catalogo','iniziative')"><img name="catalogo" id="catalogo" border="0" src="/images/head/catalogo_off.gif" alt=""></a><a href="/iniziative/hp_iniziative.asp" target="_top" onMouseover="show('iniziative','iniziative')"><img name="iniziative" id="iniziative" border="0" src="/images/head/iniziative_on.gif" alt=""></a><a href="/percorsi/hp_percorsi.asp" target="_top" onMouseover="show('percorsi','iniziative')"><img name="percorsi" id="percorsi" border="0" src="/images/head/percorsi_off.gif" alt=""></a><a href="/soggetti/hp_soggetti.asp" target="_top" onMouseover="show('soggetti','iniziative')"><img name="soggetti" id="soggetti" border="0" src="/images/head/soggetti_off.gif" alt=""></a><a href="/servizi/hp_servizi.asp" target="_top" onMouseover="show('servizi','iniziative')"><img name="servizi" id="servizi" border="0" src="/images/head/servizi_off.gif" alt=""></a><a href="/mappasito/hp_mappasito.asp" target="_top" onMouseover="show('mappasito','iniziative')"><img name="mappasito" id="mappasito" border="0" src="/images/head/mappasito_off.gif" alt=""></a></td>
-      <td valign="top" align="left" width="100%" nowrap bgcolor="#737373"><IMG BORDER="0" SRC="/images/head/x.gif" width="1" height="1" alt=""></td>
-    </tr>
-    <tr>
-      <td valign="top" align="left"><IMG BORDER="0" SRC="/images/head/iniziative/iniziative/iniziative_center.gif" width="147" height="27" alt=""></td>
-      <td valign="top" align="left" width="100%"><IMG BORDER="0" SRC="/images/head/x.gif" width="1" height="1" alt=""></td>
-    </tr>
-  </table>
-  <table border="0" cellpadding="0" cellspacing="0" width="100%">
-    <tr> 
-        <td rowspan="3" width="337"><a href="/index.asp"><IMG BORDER="0" SRC="/images/head/iniziative/iniziative/iniziative_down.gif" alt=""></a><IMG BORDER="0" SRC="/images/head/iniziative/agenda_giorno/agenda_giorno_titolo.gif" alt=""></td>
-        <td colspan="3" height="13"><IMG BORDER="0" SRC="/images/head/x.gif" width="1" height="1" alt=""></td>
-    </tr>
-    <tr>
-        <td bgcolor="#FF1D8D" class="alignMiddle" nowrap><span class="descTitolo">&nbsp;&nbsp;Agenda del Giorno</span></td>
-        <td bgcolor="#FF1D8D" width="50" class="alignBottom" nowrap><a href="/index.asp"><span CLASS="descTitolo">Home&nbsp;|</span></a></td>
-        
-        <td bgcolor="#FF1D8D" width="50"><a href="mailto:trentino.cultura@provincia.tn.it"><IMG BORDER="0" SRC="/images/head/iniziative/iniziative_mail.gif" alt=""></a></td>
-        
-    </tr>
-    <tr>
-        <td height="11" colspan="3"><IMG BORDER="0" SRC="/images/head/x.gif" width="1" height="1" alt=""></td>
-    </tr>
-  </table>  
-</div>
+		<div ID="iniziativeLayer">
+			<IMG BORDER="0" SRC="/images/head/q_fuxia.gif" WIDTH="8" HEIGHT="4"
+				alt=""><a
+				href="/asp_cat/main.asp?IDProspettiva=35&SearchType=AGENDA_SEARCH&Pag=1&TipoVista=AGENDA&cmd=new">Agenda
+				del giorno</a> <IMG BORDER="0" SRC="/images/head/q_fuxia.gif" WIDTH="8"
+				HEIGHT="4" alt=""><a
+				href="/asp_cat/main.asp?IDProspettiva=42&TipoVista=ElencoImg&cmd=new">Da
+				non perdere...</a> <IMG BORDER="0" SRC="/images/head/q_fuxia.gif"
+				WIDTH="8" HEIGHT="4" alt=""><a
+				href="/asp_cat/main.asp?IDProspettiva=28&SearchType=AGENDA_SEARCH&Pag=1&TipoVista=AGENDA&cmd=new">Mostre</a>
+			<IMG BORDER="0" SRC="/images/head/q_fuxia.gif" WIDTH="8" HEIGHT="4"
+				alt=""><a
+				href="/asp_cat/main.asp?IDProspettiva=14&SearchType=AGENDA_SEARCH&Pag=1&TipoVista=AGENDA&cmd=new">Manifestazioni
+				ed eventi</a> <IMG BORDER="0" SRC="/images/head/q_fuxia.gif" WIDTH="8"
+				HEIGHT="4" alt=""><a
+				href="/asp_cat/main.asp?IDProspettiva=29&SearchType=AGENDA_SEARCH&Pag=1&TipoVista=AGENDA&cmd=new">Musica</a>
+			<IMG BORDER="0" SRC="/images/head/q_fuxia.gif" WIDTH="8" HEIGHT="4"
+				alt=""><a
+				href="/asp_cat/main.asp?IDProspettiva=27&SearchType=AGENDA_SEARCH&Pag=1&TipoVista=AGENDA&cmd=new">Teatro</a>
+			<IMG BORDER="0" SRC="/images/head/q_fuxia.gif" WIDTH="8" HEIGHT="4"
+				alt=""><a
+				href="/asp_cat/main.asp?IDProspettiva=30&SearchType=AGENDA_SEARCH&Pag=1&TipoVista=AGENDA&cmd=new">Danza</a>
+			<IMG BORDER="0" SRC="/images/head/q_fuxia.gif" WIDTH="8" HEIGHT="4"
+				alt=""><a
+				href="/asp_cat/main.asp?IDProspettiva=31&SearchType=AGENDA_SEARCH&Pag=1&TipoVista=AGENDA&cmd=new">Cinema</a>
+			<IMG BORDER="0" SRC="/images/head/q_fuxia.gif" WIDTH="8" HEIGHT="4"
+				alt=""><a
+				href="/asp_cat/main.asp?IDProspettiva=36&SearchType=AGENDA_SEARCH&Pag=1&TipoVista=AGENDA&cmd=new">Convegni</a>
+		</div>
 
 
+		<div ID="percorsiLayer">
 
-<DIV ID="PAGE">
+			<IMG BORDER="0" SRC="/images/head/q_blu.gif" WIDTH="8" HEIGHT="4"
+				alt=""><a href="/percorsi/territorio/territorio_h.asp">Percorsi
+				sul territorio</a> <IMG BORDER="0" SRC="/images/head/q_blu.gif"
+				WIDTH="8" HEIGHT="4" alt=""><a
+				href="/percorsi/virtuali/virtuali_h.asp">Percorsi virtuali</a>
+		</div>
 
-<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0">
-<TR>
-<TD BGCOLOR="#FF1D8D" ROWSPAN="2" WIDTH="2"><IMG SRC="/images/vuoto.gif" WIDTH="2 HEIGHT="1"></TD>
-<TD BGCOLOR="#FF1D8D" HEIGHT="2"><IMG SRC="/images/vuoto.gif" WIDTH="2" HEIGHT="1"></TD>
-<TD BGCOLOR="#FF1D8D" ROWSPAN="2"><IMG SRC="/images/vuoto.gif" WIDTH="2" HEIGHT="1"></TD>
-</TR>
-<TR>
-<TD NOWRAP><CENTER>
-<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0">
-<TR>
-<TD WIDTH="24" HEIGHT= "24" CLASS="CENTERED" ALIGN="CENTER"><A HREF="ricerca.asp?IDProspettiva=35&TipoVista=Ricerca" TARGET="_top"><IMG SRC="../images/iniziative/barra_strumenti/nb_4.gif" ALT="Cerca nel catalogo" BORDER="0" WIDTH="22" HEIGHT="22"></A></TD><TD WIDTH="24" HEIGHT= "24" CLASS="CENTERED" ALIGN="CENTER"><A HREF="main.asp?IDProspettiva=35&TipoVista=Elenco&IdSel=11&Pag=" TARGET="_top"><IMG SRC="../images/iniziative/barra_strumenti/nb_1.gif" ALT="Elenco Risultati" BORDER="0" WIDTH="22" HEIGHT="22"></A></TD><TD WIDTH="24" HEIGHT= "24" CLASS="CENTERED" ALIGN="CENTER"><A HREF="main.asp?IDProspettiva=35&TipoVista=Agenda&SearchType=AGENDA_SEARCH&cmd=new" TARGET="_top"><IMG SRC="../images/iniziative/barra_strumenti/nb_6.gif" ALT="Agenda del giorno" BORDER="0" WIDTH="22" HEIGHT="22"></A></TD><TD WIDTH="24" HEIGHT= "24" CLASS="CENTERED" ALIGN="CENTER"><A HREF="main.asp?IDProspettiva=35&TipoVista=Mappa&IdSel=11&IDObj=2467400" TARGET="_top"><IMG SRC="../images/iniziative/barra_strumenti/nb_5.gif" ALT="Localizzazione" BORDER="0" WIDTH="22" HEIGHT="22"></A></TD><TD WIDTH="24" HEIGHT= "24" CLASS="CENTERED" ALIGN="CENTER"><A HREF="main.asp?IDProspettiva=35&TipoVista=SchedaImg&campo=NOME_MEDIA_BIG&IdSel=11&IDObj=2467400&Pag=3" TARGET="_top"><IMG SRC="../images/iniziative/barra_strumenti/nb_8.gif" ALT="Scheda Immagine" BORDER="0" WIDTH="22" HEIGHT="22"></A></TD><TD BGCOLOR="#E6E6E6" ALIGN="LEFT" NOWRAP CLASS="CENTERED" HEIGHT=24><A HREF="main.asp?IDProspettiva=35&TipoVista=Scheda&Pag=1&IdSel=11" TARGET="_self"><IMG SRC="../images/iniziative/barra_strumenti//tri_ini.gif" ALT="Vai alla prima scheda" WIDTH="12" HEIGHT="12" BORDER="0"></A><A HREF="main.asp?IDProspettiva=35&TipoVista=Scheda&Pag=2&IdSel=11" TARGET="_self"><IMG SRC="../images/iniziative/barra_strumenti//tri_sx.gif" ALT="Torna alla scheda precedente" WIDTH="12" HEIGHT="12" BORDER="0"></A></TD><TD CLASS="CENTERED" BGCOLOR="#E6E6E6" ALIGN="LEFT" NOWRAP HEIGHT=24><P ALIGN="CENTER"><FONT FACE="Arial" COLOR="#000000"><STRONG>3/85</STRONG></FONT></TD><TD CLASS="CENTERED" BGCOLOR="#E6E6E6" ALIGN="LEFT" NOWRAP HEIGHT=24><A HREF="main.asp?IDProspettiva=35&TipoVista=Scheda&Pag=4&IdSel=11" TARGET="_self"><IMG SRC="../images/iniziative/barra_strumenti/tri_dx.gif" ALT="Prosegui alla scheda seguente" WIDTH="12" HEIGHT="12" BORDER="0"></A><A HREF="main.asp?IDProspettiva=35&TipoVista=Scheda&Pag=85&IdSel=11" TARGET="_self"><IMG SRC="../images/iniziative/barra_strumenti/tri_fin.gif" ALT="Vai all'ultima scheda" WIDTH="12" HEIGHT="12" BORDER="0"></A></TD><TD CLASS="CENTERED" HEIGHT="24" WIDTH="24">
-<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD ALIGN="LEFT" NOWRAP VALIGN="MIDDLE" HEIGHT="0"><FORM NAME="FORM_VAI_A" ACTION="main.asp" METHOD="GET" onSubmit='return checkValue(this, "Pag", 1, 85)' TARGET="_self"></TD><TD ALIGN="LEFT" NOWRAP VALIGN="MIDDLE" HEIGHT="0"><INPUT TYPE="HIDDEN" NAME="IDProspettiva" VALUE="35"><INPUT TYPE="HIDDEN" NAME="TipoVista" VALUE="Scheda"><INPUT TYPE="HIDDEN" NAME="IdSel" VALUE="11"></TD><TD ALIGN="LEFT" NOWRAP VALIGN="MIDDLE" HEIGHT="24"><INPUT VALIGN="MIDDLE" TYPE="TEXT" NAME="Pag" SIZE="3" HEIGHT="24"></TD><TD ALIGN="LEFT" NOWRAP VALIGN="MIDDLE" HEIGHT=24><INPUT BORDER="0" VALIGN="MIDDLE" TYPE="IMAGE" SRC="../images/iniziative/barra_strumenti/go_to.gif" ALT="Vai a pagina..." TARGET="_self"></TD><TD ALIGN="LEFT" NOWRAP VALIGN="MIDDLE" HEIGHT="0"></FORM></TD></TR></TABLE>
-</TD>
-</TR>
-</TABLE>
-</CENTER></TD>
-</TR>
-<TR>
-<TD BGCOLOR="#FF1D8D" COLSPAN="3" HEIGHT="2"><IMG SRC="/images/vuoto.gif" WIDTH="2" HEIGHT="1"></TD>
-</TR>
-</TABLE>
-<table border='0' cellpadding='0' cellspacing='0'>
-<tr>
-<td bgcolor='#FF1D8D'><font size='1' face='Tahoma' color='#FFFFFF'><b>&nbsp;Schede Trovate: 85&nbsp;</b></font></td>
-</tr></table>
-<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" WIDTH="84%"><TR><TD WIDTH="84%" HEIGHT="2" COLSPAN="9" BGCOLOR="#FF1D8D"><IMG SRC="../images/vuoto.gif" WIDTH="1" HEIGHT="1"></TD></TR><TR><TD WIDTH="84%" HEIGHT="5" COLSPAN="9"><IMG SRC="../images/vuoto.gif" WIDTH="1" HEIGHT="1"></TD></TR><TR><TD WIDTH="2%"><IMG SRC="../images/vuoto.gif" WIDTH="1" HEIGHT="1"></TD><TD WIDTH="10%" ALIGN="RIGHT"><FONT FACE="Tahoma" SIZE="1" COLOR="#7F0E46">Iniziative del</FONT></TD><TD WIDTH="2%"><IMG SRC="../images/vuoto.gif" WIDTH="1" HEIGHT="1"></TD><TD WIDTH="40%"><FONT FACE="Tahoma" SIZE="1" COLOR="#000000">15/Feb/2013</FONT></TD><TD WIDTH="2%"><IMG SRC="../images/vuoto.gif" WIDTH="1" HEIGHT="1"></TD><TD WIDTH="2%"><IMG SRC="../images/vuoto.gif" WIDTH="1" HEIGHT="1"></TD><TD WIDTH="10%" ALIGN="RIGHT">&nbsp;</TD><TD WIDTH="2%"><IMG SRC="../images/vuoto.gif" WIDTH="1" HEIGHT="1"></TD><TD WIDTH="40%">&nbsp;</TD><TD WIDTH="2%"><IMG SRC="../images/vuoto.gif" WIDTH="1" HEIGHT="1"></TD></TR><TR><TD WIDTH="84%" HEIGHT="5" COLSPAN="9"><IMG SRC="../images/vuoto.gif" WIDTH="1" HEIGHT="1"></TD></TR><TR><TD WIDTH="84%" HEIGHT="2" COLSPAN="9" BGCOLOR="#FF1D8D"><IMG SRC="../images/vuoto.gif" WIDTH="1" HEIGHT="1"></TD></TR></TABLE><IMG SRC = "../images/vuoto.gif" WIDTH = "1" HEIGHT = "5"><BR>
-<!-- Entro nel Case "STATUS_FOUND" -->
 
-<!-- nRecordCount = 85 -->
+		<div ID="soggettiLayer">
+			<IMG BORDER="0" SRC="/images/head/q_giallo.gif" WIDTH="8" HEIGHT="4"
+				alt=""><a href="/soggetti/pat/pat_ind_h.asp">La Provincia
+				Autonoma di Trento</a> <IMG BORDER="0" SRC="/images/head/q_giallo.gif"
+				WIDTH="8" HEIGHT="4" alt=""><a
+				href="/soggetti/musei/musei_ind_h.asp">I Musei</a> <IMG BORDER="0"
+				SRC="/images/head/q_giallo.gif" WIDTH="8" HEIGHT="4" alt=""><a
+				href="/soggetti/ecomusei/ecomusei_ind_h.asp">Gli Ecomusei</a> <IMG
+				BORDER="0" SRC="/images/head/q_giallo.gif" WIDTH="8" HEIGHT="4"
+				alt=""><a href="/soggetti/parchi/parchi_ind_h.asp">I
+				Parchi</a> <IMG BORDER="0" SRC="/images/head/q_giallo.gif" WIDTH="8"
+				HEIGHT="4" alt=""><a href="/soggetti/biblio/biblio_ind_h.asp">Le
+				Biblioteche</a> <IMG BORDER="0" SRC="/images/head/q_giallo.gif"
+				WIDTH="8" HEIGHT="4" alt=""><a
+				href="/soggetti/archivi/arch_ind_h.asp">Gli Archivi</a> <IMG
+				BORDER="0" SRC="/images/head/q_giallo.gif" WIDTH="8" HEIGHT="4"
+				alt=""><a href="/soggetti/universita/univ_ind_h.asp">L'Università</a>
+			<IMG BORDER="0" SRC="/images/head/q_giallo.gif" WIDTH="8" HEIGHT="4"
+				alt=""><a href="/soggetti/enti_ric/enti_ric_ind_h.asp">Enti
+				di ricerca</a> <IMG BORDER="0" SRC="/images/head/q_giallo.gif" WIDTH="8"
+				HEIGHT="4" alt=""><a
+				href="/soggetti/associazioni/ass_ind_h.asp">Le Associazioni</a> <IMG
+				BORDER="0" SRC="/images/head/q_giallo.gif" WIDTH="8" HEIGHT="4"
+				alt=""><a href="/soggetti/con_mus/con_mus_ind_h.asp">Conservatorio
+				e Scuole Musicali</a> <IMG BORDER="0" SRC="/images/head/q_giallo.gif"
+				WIDTH="8" HEIGHT="4" alt=""><a
+				href="/soggetti/santa_chiara/santa_chiara_h.asp">Centro Servizi
+				Culturali S. Chiara</a>
+		</div>
 
-<!-- bReturn = True -->
+		<div ID="serviziLayer">
+			<IMG BORDER="0" SRC="/images/head/q_viola.gif" WIDTH="8" HEIGHT="4"
+				alt=""><a href="/servizi/info_gen/info_gen_h.asp">Informazioni
+				generali</a> <IMG BORDER="0" SRC="/images/head/q_viola.gif" WIDTH="8"
+				HEIGHT="4" alt=""><a
+				href="http://www1.trentinocultura.net/portal/server.pt?open=512&objID=276&mode=2">Area
+				riservata</a>
+		</div>
 
-<!-- ((nRecordCount > 0) And bReturn) = True -->
 
-<!-- sSqlSystem = SELECT * FROM CAMPIVISTA WHERE IDVISTA = 230 ORDER BY FIELDPOS; -->
+		<div ID="mappasitoLayer">
+			<IMG BORDER="0" SRC="/images/head/q_azzurro.gif" WIDTH="8" HEIGHT="4"
+				alt=""><a href="/mappasito/mappa_corpo.asp">Mappa del Sito</a>
+			<IMG BORDER="0" SRC="/images/head/q_azzurro.gif" WIDTH="8" HEIGHT="4"
+				alt=""><a href="/mappasito/mappa_alfa.asp">Indice
+				Analitico</a> <IMG BORDER="0" SRC="/images/head/q_azzurro.gif" WIDTH="8"
+				HEIGHT="4" alt=""><a
+				href="/asp_cat/main.asp?IDProspettiva=43&Pag=1&TipoVista=News&SearchType=NEWS_SEARCH&cmd=new">Novità
+				del portale</a> <IMG BORDER="0" SRC="/images/head/q_azzurro.gif"
+				WIDTH="8" HEIGHT="4" alt=""><a
+				href="/mappasito/ricerca_libera/ricerca_libera_ind.asp">Ricerca
+				libera</a>
+		</div>
 
-<!-- sSqlCountSystem = SELECT COUNT(*) FROM CAMPIVISTA WHERE IDVISTA = 230; -->
+		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td valign="top" align="left" nowrap><IMG BORDER="0"
+					SRC="/images/head/iniziative/iniziative/iniziative_up.gif"
+					width="147" height="13" alt=""><a
+					href="/radici/hp_radici.asp" target="_top"
+					onMouseover="show('radici','iniziative')"><img name="radici"
+						id="radici" border="0" src="/images/head/radici_off.gif" alt=""></a><a
+					href="/territorio/hp_territorio.asp" target="_top"
+					onMouseover="show('territorio','iniziative')"><img
+						name="territorio" id="territorio" border="0"
+						src="/images/head/territorio_off.gif" alt=""></a><a
+					href="/orizzonti/hp_orizzonti.asp" target="_top"
+					onMouseover="show('orizzonti','iniziative')"><img
+						name="orizzonti" id="orizzonti" border="0"
+						src="/images/head/orizzonti_off.gif" alt=""></a><a
+					href="/catalogo/hp_catalogo.asp" target="_top"
+					onMouseover="show('catalogo','iniziative')"><img
+						name="catalogo" id="catalogo" border="0"
+						src="/images/head/catalogo_off.gif" alt=""></a><a
+					href="/iniziative/hp_iniziative.asp" target="_top"
+					onMouseover="show('iniziative','iniziative')"><img
+						name="iniziative" id="iniziative" border="0"
+						src="/images/head/iniziative_on.gif" alt=""></a><a
+					href="/percorsi/hp_percorsi.asp" target="_top"
+					onMouseover="show('percorsi','iniziative')"><img
+						name="percorsi" id="percorsi" border="0"
+						src="/images/head/percorsi_off.gif" alt=""></a><a
+					href="/soggetti/hp_soggetti.asp" target="_top"
+					onMouseover="show('soggetti','iniziative')"><img
+						name="soggetti" id="soggetti" border="0"
+						src="/images/head/soggetti_off.gif" alt=""></a><a
+					href="/servizi/hp_servizi.asp" target="_top"
+					onMouseover="show('servizi','iniziative')"><img name="servizi"
+						id="servizi" border="0" src="/images/head/servizi_off.gif" alt=""></a><a
+					href="/mappasito/hp_mappasito.asp" target="_top"
+					onMouseover="show('mappasito','iniziative')"><img
+						name="mappasito" id="mappasito" border="0"
+						src="/images/head/mappasito_off.gif" alt=""></a></td>
+				<td valign="top" align="left" width="100%" nowrap bgcolor="#737373"><IMG
+					BORDER="0" SRC="/images/head/x.gif" width="1" height="1" alt=""></td>
+			</tr>
+			<tr>
+				<td valign="top" align="left"><IMG BORDER="0"
+					SRC="/images/head/iniziative/iniziative/iniziative_center.gif"
+					width="147" height="27" alt=""></td>
+				<td valign="top" align="left" width="100%"><IMG BORDER="0"
+					SRC="/images/head/x.gif" width="1" height="1" alt=""></td>
+			</tr>
+		</table>
+		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td rowspan="3" width="337"><a href="/index.asp"><IMG
+						BORDER="0"
+						SRC="/images/head/iniziative/iniziative/iniziative_down.gif"
+						alt=""></a><IMG BORDER="0"
+					SRC="/images/head/iniziative/agenda_giorno/agenda_giorno_titolo.gif"
+					alt=""></td>
+				<td colspan="3" height="13"><IMG BORDER="0"
+					SRC="/images/head/x.gif" width="1" height="1" alt=""></td>
+			</tr>
+			<tr>
+				<td bgcolor="#FF1D8D" class="alignMiddle" nowrap><span
+					class="descTitolo">&nbsp;&nbsp;Agenda del Giorno</span></td>
+				<td bgcolor="#FF1D8D" width="50" class="alignBottom" nowrap><a
+					href="/index.asp"><span CLASS="descTitolo">Home&nbsp;|</span></a></td>
 
-<!-- sSql[createScheda] = SELECT FIELDNAME, LABEL, IDLOOKUP, TAGPAR, TAGSTR, MULTISQL, KEYFIELD FROM CAMPIVISTA WHERE IDVISTA = 230 ORDER BY FIELDPOS; -->
+				<td bgcolor="#FF1D8D" width="50"><a
+					href="mailto:trentino.cultura@provincia.tn.it"><IMG BORDER="0"
+						SRC="/images/head/iniziative/iniziative_mail.gif" alt=""></a></td>
 
-<!-- sSqlCount[createScheda] = SELECT COUNT(*) FROM CAMPIVISTA WHERE IDVISTA = 230; -->
+			</tr>
+			<tr>
+				<td height="11" colspan="3"><IMG BORDER="0"
+					SRC="/images/head/x.gif" width="1" height="1" alt=""></td>
+			</tr>
+		</table>
+	</div>
 
-<!-- sSqlElenco[createScheda] =  -->
 
-<!-- sSqlElenco[createScheda] = SELECT DATA_INIZIO, DATA_FINE, ORARIO FROM PCTTEVECAL WHERE (PCTTEVECAL.EVE_ID = @1) -->
 
-<!-- sSqlElenco[createScheda] = SELECT DATA_INIZIO, DATA_FINE, ORARIO FROM PCTTEVECAL WHERE (PCTTEVECAL.EVE_ID = 2467400) -->
+	<DIV ID="PAGE">
 
-<!-- sSqlCount[createScheda] = SELECT COUNT(*) FROM CAMPIVISTA WHERE IDVISTA = 230; -->
+		<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0">
+			<TR>
+				<TD BGCOLOR="#FF1D8D" ROWSPAN="2" WIDTH="2"><IMG
+					SRC="/images/vuoto.gif" WIDTH="2 HEIGHT="1"></TD>
+				<TD BGCOLOR="#FF1D8D" HEIGHT="2"><IMG SRC="/images/vuoto.gif"
+					WIDTH="2" HEIGHT="1"></TD>
+				<TD BGCOLOR="#FF1D8D" ROWSPAN="2"><IMG SRC="/images/vuoto.gif"
+					WIDTH="2" HEIGHT="1"></TD>
+			</TR>
+			<TR>
+				<TD NOWRAP><CENTER>
+						<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0">
+							<TR>
+								<TD WIDTH="24" HEIGHT="24" CLASS="CENTERED" ALIGN="CENTER"><A
+									HREF="ricerca.asp?IDProspettiva=35&TipoVista=Ricerca"
+									TARGET="_top"><IMG
+										SRC="../images/iniziative/barra_strumenti/nb_4.gif"
+										ALT="Cerca nel catalogo" BORDER="0" WIDTH="22" HEIGHT="22"></A></TD>
+								<TD WIDTH="24" HEIGHT="24" CLASS="CENTERED" ALIGN="CENTER"><A
+									HREF="main.asp?IDProspettiva=35&TipoVista=Elenco&IdSel=3&Pag="
+									TARGET="_top"><IMG
+										SRC="../images/iniziative/barra_strumenti/nb_1.gif"
+										ALT="Elenco Risultati" BORDER="0" WIDTH="22" HEIGHT="22"></A></TD>
+								<TD WIDTH="24" HEIGHT="24" CLASS="CENTERED" ALIGN="CENTER"><A
+									HREF="main.asp?IDProspettiva=35&TipoVista=Agenda&SearchType=AGENDA_SEARCH&cmd=new"
+									TARGET="_top"><IMG
+										SRC="../images/iniziative/barra_strumenti/nb_6.gif"
+										ALT="Agenda del giorno" BORDER="0" WIDTH="22" HEIGHT="22"></A></TD>
+								<TD WIDTH="24" HEIGHT="24" CLASS="CENTERED" ALIGN="CENTER"><A
+									HREF="main.asp?IDProspettiva=35&TipoVista=Mappa&IdSel=3&IDObj=2466739"
+									TARGET="_top"><IMG
+										SRC="../images/iniziative/barra_strumenti/nb_5.gif"
+										ALT="Localizzazione" BORDER="0" WIDTH="22" HEIGHT="22"></A></TD>
+								<TD WIDTH="24" HEIGHT="24" CLASS="CENTERED" ALIGN="CENTER"><A
+									HREF="main.asp?IDProspettiva=35&TipoVista=SchedaImg&campo=NOME_MEDIA_BIG&IdSel=3&IDObj=2466739&Pag=3"
+									TARGET="_top"><IMG
+										SRC="../images/iniziative/barra_strumenti/nb_8.gif"
+										ALT="Scheda Immagine" BORDER="0" WIDTH="22" HEIGHT="22"></A></TD>
+								<TD BGCOLOR="#E6E6E6" ALIGN="LEFT" NOWRAP CLASS="CENTERED"
+									HEIGHT=24><A
+									HREF="main.asp?IDProspettiva=35&TipoVista=Scheda&Pag=1&IdSel=3"
+									TARGET="_self"><IMG
+										SRC="../images/iniziative/barra_strumenti//tri_ini.gif"
+										ALT="Vai alla prima scheda" WIDTH="12" HEIGHT="12" BORDER="0"></A><A
+									HREF="main.asp?IDProspettiva=35&TipoVista=Scheda&Pag=2&IdSel=3"
+									TARGET="_self"><IMG
+										SRC="../images/iniziative/barra_strumenti//tri_sx.gif"
+										ALT="Torna alla scheda precedente" WIDTH="12" HEIGHT="12"
+										BORDER="0"></A></TD>
+								<TD CLASS="CENTERED" BGCOLOR="#E6E6E6" ALIGN="LEFT" NOWRAP
+									HEIGHT=24><P ALIGN="CENTER">
+										<FONT FACE="Arial" COLOR="#000000"><STRONG>3/52</STRONG></FONT></TD>
+								<TD CLASS="CENTERED" BGCOLOR="#E6E6E6" ALIGN="LEFT" NOWRAP
+									HEIGHT=24><A
+									HREF="main.asp?IDProspettiva=35&TipoVista=Scheda&Pag=4&IdSel=3"
+									TARGET="_self"><IMG
+										SRC="../images/iniziative/barra_strumenti/tri_dx.gif"
+										ALT="Prosegui alla scheda seguente" WIDTH="12" HEIGHT="12"
+										BORDER="0"></A><A
+									HREF="main.asp?IDProspettiva=35&TipoVista=Scheda&Pag=52&IdSel=3"
+									TARGET="_self"><IMG
+										SRC="../images/iniziative/barra_strumenti/tri_fin.gif"
+										ALT="Vai all'ultima scheda" WIDTH="12" HEIGHT="12" BORDER="0"></A></TD>
+								<TD CLASS="CENTERED" HEIGHT="24" WIDTH="24">
+									<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0">
+										<TR>
+											<TD ALIGN="LEFT" NOWRAP VALIGN="MIDDLE" HEIGHT="0"><FORM
+													NAME="FORM_VAI_A" ACTION="main.asp" METHOD="GET"
+													onSubmit='return checkValue(this, "Pag", 1, 52)'
+													TARGET="_self"></TD>
+											<TD ALIGN="LEFT" NOWRAP VALIGN="MIDDLE" HEIGHT="0"><INPUT
+												TYPE="HIDDEN" NAME="IDProspettiva" VALUE="35"><INPUT
+												TYPE="HIDDEN" NAME="TipoVista" VALUE="Scheda"><INPUT
+												TYPE="HIDDEN" NAME="IdSel" VALUE="3"></TD>
+											<TD ALIGN="LEFT" NOWRAP VALIGN="MIDDLE" HEIGHT="24"><INPUT
+												VALIGN="MIDDLE" TYPE="TEXT" NAME="Pag" SIZE="3" HEIGHT="24"></TD>
+											<TD ALIGN="LEFT" NOWRAP VALIGN="MIDDLE" HEIGHT=24><INPUT
+												BORDER="0" VALIGN="MIDDLE" TYPE="IMAGE"
+												SRC="../images/iniziative/barra_strumenti/go_to.gif"
+												ALT="Vai a pagina..." TARGET="_self"></TD>
+											<TD ALIGN="LEFT" NOWRAP VALIGN="MIDDLE" HEIGHT="0"></FORM></TD>
+										</TR>
+									</TABLE>
+								</TD>
+								<TD ALIGN="LEFT" NOWRAP VALIGN="MIDDLE" HEIGHT="0"><FORM
+										OnSubmit='HandleForm(this); return false'
+										ID="FORM_APPROFFONDIMENTI" NAME="FORM_APPROFFONDIMENTI"></TD>
+								<TD><SELECT NAME="APPROFONDIMENTI" SIZE="1"
+									onChange='callURL(this.selectedIndex, this.options[this.selectedIndex].value)'><OPTION
+											SELECTED>Per saperne di pi&ugrave;</OPTION>
+										<OPTION
+											VALUE="main.asp?IDProspettiva=61&SearchType=APPROF_SEARCH&TipoVista=Elenco&where=PCTVENTIORG%2EIDOBJ+IN+%28SELECT+SOGGET%5FID+FROM+PCTREVESOG+WHERE+EVE%5FID%3D2466739%29+AND+%28CONVALIDA+%3D+3%29&cmd=new&Pag=1&LabelFilter=Gli+organizzatori+di%3DConservatorio+F%2EA%2E+Bonporti%2E+Inaugurazione+Anno+Accademico+2012%2F2013">Gli
+											organizzatori</OPTION></SELECT></TD>
+								<TD ALIGN="LEFT" NOWRAP VALIGN="MIDDLE" HEIGHT="0"></FORM></TD>
+							</TR>
+						</TABLE>
+					</CENTER></TD>
+			</TR>
+			<TR>
+				<TD BGCOLOR="#FF1D8D" COLSPAN="3" HEIGHT="2"><IMG
+					SRC="/images/vuoto.gif" WIDTH="2" HEIGHT="1"></TD>
+			</TR>
+		</TABLE>
+		<table border='0' cellpadding='0' cellspacing='0'>
+			<tr>
+				<td bgcolor='#FF1D8D'><font size='1' face='Tahoma'
+					color='#FFFFFF'><b>&nbsp;Schede Trovate: 52&nbsp;</b></font></td>
+			</tr>
+		</table>
+		<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" WIDTH="84%">
+			<TR>
+				<TD WIDTH="84%" HEIGHT="2" COLSPAN="9" BGCOLOR="#FF1D8D"><IMG
+					SRC="../images/vuoto.gif" WIDTH="1" HEIGHT="1"></TD>
+			</TR>
+			<TR>
+				<TD WIDTH="84%" HEIGHT="5" COLSPAN="9"><IMG
+					SRC="../images/vuoto.gif" WIDTH="1" HEIGHT="1"></TD>
+			</TR>
+			<TR>
+				<TD WIDTH="2%"><IMG SRC="../images/vuoto.gif" WIDTH="1"
+					HEIGHT="1"></TD>
+				<TD WIDTH="10%" ALIGN="RIGHT"><FONT FACE="Tahoma" SIZE="1"
+					COLOR="#7F0E46">Iniziative del</FONT></TD>
+				<TD WIDTH="2%"><IMG SRC="../images/vuoto.gif" WIDTH="1"
+					HEIGHT="1"></TD>
+				<TD WIDTH="40%"><FONT FACE="Tahoma" SIZE="1" COLOR="#000000">19/Feb/2013</FONT></TD>
+				<TD WIDTH="2%"><IMG SRC="../images/vuoto.gif" WIDTH="1"
+					HEIGHT="1"></TD>
+				<TD WIDTH="2%"><IMG SRC="../images/vuoto.gif" WIDTH="1"
+					HEIGHT="1"></TD>
+				<TD WIDTH="10%" ALIGN="RIGHT">&nbsp;</TD>
+				<TD WIDTH="2%"><IMG SRC="../images/vuoto.gif" WIDTH="1"
+					HEIGHT="1"></TD>
+				<TD WIDTH="40%">&nbsp;</TD>
+				<TD WIDTH="2%"><IMG SRC="../images/vuoto.gif" WIDTH="1"
+					HEIGHT="1"></TD>
+			</TR>
+			<TR>
+				<TD WIDTH="84%" HEIGHT="5" COLSPAN="9"><IMG
+					SRC="../images/vuoto.gif" WIDTH="1" HEIGHT="1"></TD>
+			</TR>
+			<TR>
+				<TD WIDTH="84%" HEIGHT="2" COLSPAN="9" BGCOLOR="#FF1D8D"><IMG
+					SRC="../images/vuoto.gif" WIDTH="1" HEIGHT="1"></TD>
+			</TR>
+		</TABLE>
+		<IMG SRC="../images/vuoto.gif" WIDTH="1" HEIGHT="5"><BR>
+		<!-- Entro nel Case "STATUS_FOUND" -->
 
-<!-- sSqlElenco[createScheda] =  -->
+		<!-- nRecordCount = 52 -->
 
-<!-- sSqlElenco[createScheda] =  -->
+		<!-- bReturn = True -->
 
-<!-- sSqlElenco[createScheda] =  -->
+		<!-- ((nRecordCount > 0) And bReturn) = True -->
 
-<!-- sSqlElenco[createScheda] =  -->
+		<!-- sSqlSystem = SELECT * FROM CAMPIVISTA WHERE IDVISTA = 230 ORDER BY FIELDPOS; -->
 
-<!-- sSqlElenco[createScheda] =  -->
+		<!-- sSqlCountSystem = SELECT COUNT(*) FROM CAMPIVISTA WHERE IDVISTA = 230; -->
 
-<!-- sSqlElenco[createScheda] =  -->
+		<!-- sSql[createScheda] = SELECT FIELDNAME, LABEL, IDLOOKUP, TAGPAR, TAGSTR, MULTISQL, KEYFIELD FROM CAMPIVISTA WHERE IDVISTA = 230 ORDER BY FIELDPOS; -->
 
-<!-- sSqlElenco[createScheda] =  -->
+		<!-- sSqlCount[createScheda] = SELECT COUNT(*) FROM CAMPIVISTA WHERE IDVISTA = 230; -->
 
-<!-- sSqlElenco[createScheda] =  -->
+		<!-- sSqlElenco[createScheda] =  -->
 
-<!-- sSqlElenco[createScheda] =  -->
+		<!-- sSqlElenco[createScheda] = SELECT DATA_INIZIO, DATA_FINE, ORARIO FROM PCTTEVECAL WHERE (PCTTEVECAL.EVE_ID = @1) -->
 
-<!-- sSqlElenco[createScheda] =  -->
+		<!-- sSqlElenco[createScheda] = SELECT DATA_INIZIO, DATA_FINE, ORARIO FROM PCTTEVECAL WHERE (PCTTEVECAL.EVE_ID = 2466739) -->
 
-<!-- sSqlElenco[createScheda] =  -->
+		<!-- sSqlCount[createScheda] = SELECT COUNT(*) FROM CAMPIVISTA WHERE IDVISTA = 230; -->
 
-<!-- sSqlElenco[createScheda] =  -->
+		<!-- sSqlElenco[createScheda] =  -->
 
-<!-- sSqlElenco[createScheda] =  -->
+		<!-- sSqlElenco[createScheda] =  -->
 
-<!-- sSqlElenco[createScheda] =  -->
+		<!-- sSqlElenco[createScheda] =  -->
 
-<!-- sSqlElenco[createScheda] =  -->
-<BR><table border='0' cellpadding='0' cellspacing='0'>
-<tr>
-<td width='20%'><img src='/images/vuoto.gif'></td>
-<td width='79%'><img src='/images/vuoto.gif'></td>
-<td width='1%'><img src='/images/vuoto.gif'></td>
-<td width='1'><img src='/images/vuoto.gif'></td>
-</tr>
-<tr>
-<td><img src='/images/vuoto.gif'></td>
-<td><img src='/images/vuoto.gif'></td>
-<td rowspan='13'>
-<a href='/asp_cat/main.asp?IDProspettiva=35&Pag=3&IDObj=2467400&IDMedia=2468204&IdSel=11&TipoVista=SchedaImg' target='_self'><img src='/bin/include/viste/function/img.asp?id=2468204&tipoimg=SCHEDA' alt="Visualizza l'immagine"></a>
-<br><br><br><br></td>
-</tr>
-<tr>
-<td class='rightBox'><span class='labelScheda'>Titolo:</span></td>
-<td class='leftBox'><font size="3" face="Arial" color="#000000"><strong>TrentOperetta</strong></font></td>
-</tr>
-<tr>
-<td class='rightBox'><span class='labelScheda'>Date:</span></td>
-<td class='leftBox'><table class='elenco' border='0' cellpadding='0' cellspacing='0'>
-<tr>
-<td width='70%'><img src='/images/vuoto.gif'></td>
-<td width='30%'><img src='/images/vuoto.gif'></td>
-<td width='1'><img src='/images/vuoto.gif'></td>
-</tr>
-<tr><td colspan='2' class='listElementLeft'><FONT SIZE="1">dal 15/02/2013 al 15/02/2013 La vedova allegra</FONT></td></tr>
-<tr><td colspan='2' bgcolor='#D6D6D6'><img height='2' src='/images/vuoto.gif'></td></tr>
-<tr><td colspan='2' class='listElementLeft'><FONT SIZE="1">dal 27/02/2013 al 27/02/2013 Il Paese dei campanelli</FONT></td></tr>
-</table>
-</td>
-</tr>
-<tr>
-<td class='rightBox'><span class='labelScheda'>Luogo:</span></td>
-<td class='leftBox'>Teatro Sociale</td>
-</tr>
-<tr>
-<td class='rightBox'><span class='labelScheda'>Indirizzo:</span></td>
-<td class='leftBox'>via Oss Mazzurana, 19</td>
-</tr>
-<tr>
-<td class='rightBox'><span class='labelScheda'>Telefono:</span></td>
-<td class='leftBox'>0461/213834 - n. verde 800 013952</td>
-</tr>
-<tr>
-<td class='rightBox'><span class='labelScheda'>Località:</span></td>
-<td class='leftBox'>Trento</td>
-</tr>
-<tr>
-<td class='rightBox'><span class='labelScheda'>Costo:</span></td>
-<td class='leftBox'><font face="verdana">ingresso da € 35 a € 15</td>
-</tr>
-<tr>
-<td class='rightBox'><span class='labelScheda'>Note:</span></td>
-<td class='leftBox'><font face="verdana">L'appuntamento con la “piccola lirica” è fissato per venerdì 15 febbraio (La vedova allegra) e mercoledì 27 febbraio (Il Paese dei campanelli). 
-<br>
-<br>Si aprirà a febbraio, con un doppio appuntamento in calendario al Teatro Sociale di Trento, un nuovo scenario nella proposta culturale trentina: quello della “leggerezza di qualità” nel teatro musicale. Sotto la sigla <b>«Operetta … il paese dei sorrisi»</b>, la produzione “L'Obiettivo” presenta, in collaborazione con il Centro Servizi Culturali S.Chiara, il progetto di una rassegna dedicata al teatro musicale leggero e, in particolare, all'Operetta, che ritorna così a Trento in grande stile e con grande impegno produttivo e musicale. La rassegna proporrà due delle operette più amate dal pubblico: La vedova allegra (in edizione italiana) e Il paese dei campanelli. I numerosi appassionati dell’Operetta, di quella “piccola lirica” e di quel teatro musicale leggero fiorente dalla fine dell’ottocento agli anni trenta del novecento e firmato anche da grandi autori, troveranno dunque al Teatro Sociale un’isola alla quale approdare felicemente. 
-<br>La direzione musicale è affidata al maestro Stefano Giaroli; la messinscena è firmata da Silvia Felisetti e da Alessandro Brachetti. 
-<br>
-<br><b>La Vedova allegra</b> avrà quale protagonista il soprano brasiliano Susie Georgiadis, con il baritono Maurizio Leoni nel ruolo del Conte Danilo. Il paese dei campanelli, l’operetta italiana più popolare, confezionata con fantasia non senza qualche riflesso di café-chantant, avrà per interpreti, nei ruoli principali, Silvia Felisetti, Alessandro Brachetti, Elena Rapita e Antonio Colamorea.   
-<br>Modello dell'operetta del primo Novecento, oggi entrato anche nel repertorio dei maggiori teatri d’opera, La vedova allegra non è solo il capolavoro di Franz Lehár, ma anche il luminoso riflesso di un felice mondo di ieri. Le melodie intramontabili del compositore danubiano sono espressione di una felicità dolce-amara che ancora incanta e commuove in tutto il mondo. Dal 1905, quando è stata rappresentata per la prima volta al Theater an der Wien (del 1907 è invece la “prima” italiana), La vedova allegra continua a essere uno degli spettacoli più rappresentati al mondo, avendo conquistato non solo il teatro, ma anche il cinema e la televisione.
-<br>
-<br>***
-<br>
-<br><b>Il paese dei campanelli</b> è invece la più fortunata delle operette italiane uscite dall’atelier di Carlo Lombardo (artefice magico della piccola lirica) per la musica di Virgilio Ranzato. Andata il scena al Lirico di Milano nel 1923, l’'operetta è un brioso concentrato di fantasia, di equivoci, di situazioni comiche all'insegna della “trasgressione: un congegno teatrale perfetto, un delizioso gioco di coppie scandito da gag e da musiche che appartengono alla memoria collettiva. 
-<br>Le due popolarissime operette saranno presentate con orchestra e corpo di ballo, ricchezza di scene e costumi e con un cast di artisti specialisti del genere.
-<br>
-<br>
-<br>La vedova allegra sarà in scena al Teatro Sociale venerdì 15 febbraio con inizio alle ore 20.30, mentre Il paese dei campanelli è atteso mercoledì 27 febbraio sempre alle 20,30. Alle casse del Teatro Sociale e del Teatro Auditorium e presso le Casse Rurali Trentine sul sito di  Primi alla Prima (www.primiallaprima.it) delle sono già disponibili i biglietti da € 35 a un minimo di € 15.</td>
-</tr>
-<tr>
-<td class='rightBox'><span class='labelScheda'>Prevendite:</span></td>
-<td class='leftBox'><font face="verdana">Cassa del Teatro Auditorium da lunedì a sabato dalle ore 10 alle ore 19.
-<br>Cassa del Teatro Sociale da lunedì a sabato dalle ore 16 alle ore 19.
-<br>Casse Rurali Trentine in orario di sportello.</td>
-</tr>
-<tr>
-<td class='rightBox'><span class='labelScheda'>Enti Organizzatori:</span></td>
-<td class='leftBox'>P.A.T. Assessorato alla Cultura, Rapporti Europei e Cooperazione</td>
-</tr>
-<tr>
-<td class='rightBox'><span class='labelScheda'>Indirizzo Internet:</span></td>
-<td class='leftBox'><font size="1" face="Arial" color="#000000"><a href=http://www.centrosantachiara.it target='_new'>http://www.centrosantachiara.it</a></font></td>
-</tr>
-<tr>
-<td class='rightBox'><span class='labelScheda'>E-mail:</span></td>
-<td class='leftBox'><a href="mailto:info@centrosantachiara.it"><font face="Arial" size = 1> info@centrosantachiara.it</font></a></td>
-</tr>
-</table>
-<P>&nbsp;</P>
-</DIV>
+		<!-- sSqlElenco[createScheda] =  -->
+
+		<!-- sSqlElenco[createScheda] =  -->
+
+		<!-- sSqlElenco[createScheda] =  -->
+
+		<!-- sSqlElenco[createScheda] =  -->
+
+		<!-- sSqlElenco[createScheda] =  -->
+
+		<!-- sSqlElenco[createScheda] =  -->
+
+		<!-- sSqlElenco[createScheda] =  -->
+
+		<!-- sSqlElenco[createScheda] =  -->
+
+		<!-- sSqlElenco[createScheda] =  -->
+
+		<!-- sSqlElenco[createScheda] =  -->
+
+		<!-- sSqlElenco[createScheda] =  -->
+
+		<!-- sSqlElenco[createScheda] =  -->
+		<BR>
+		<table border='0' cellpadding='0' cellspacing='0'>
+			<tr>
+				<td width='20%'><img src='/images/vuoto.gif'></td>
+				<td width='79%'><img src='/images/vuoto.gif'></td>
+				<td width='1%'><img src='/images/vuoto.gif'></td>
+				<td width='1'><img src='/images/vuoto.gif'></td>
+			</tr>
+			<tr>
+				<td><img src='/images/vuoto.gif'></td>
+				<td><img src='/images/vuoto.gif'></td>
+				<td rowspan='13'><a
+					href='/asp_cat/main.asp?IDProspettiva=35&Pag=3&IDObj=2466739&IDMedia=2468557&IdSel=3&TipoVista=SchedaImg'
+					target='_self'><img
+						src='/bin/include/viste/function/img.asp?id=2468557&tipoimg=SCHEDA'
+						alt="Visualizza l'immagine"></a> <br>
+				<br>
+				<a
+					href='/asp_cat/main.asp?IDProspettiva=35&Pag=3&IDObj=2466739&IDMedia=2466740&IdSel=3&TipoVista=SchedaImg'
+					target='_self'><img
+						src='/bin/include/viste/function/img.asp?id=2466740&tipoimg=SCHEDA'
+						alt="Visualizza l'immagine"></a> <br>
+				<br>
+				<br>
+				<br></td>
+			</tr>
+			<tr>
+				<td class='rightBox'><span class='labelScheda'>Titolo:</span></td>
+				<td class='leftBox'><font size="3" face="Arial" color="#000000"><strong>Conservatorio
+							F.A. Bonporti. Inaugurazione Anno Accademico 2012/2013</strong></font></td>
+			</tr>
+			<tr>
+				<td class='rightBox'><span class='labelScheda'>Date:</span></td>
+				<td class='leftBox'><table class='elenco' border='0'
+						cellpadding='0' cellspacing='0'>
+						<tr>
+							<td width='70%'><img src='/images/vuoto.gif'></td>
+							<td width='30%'><img src='/images/vuoto.gif'></td>
+							<td width='1'><img src='/images/vuoto.gif'></td>
+						</tr>
+						<tr>
+							<td colspan='2' class='listElementLeft'><FONT SIZE="1">dal
+									19/02/2013 al 19/02/2013 </FONT></td>
+						</tr>
+					</table></td>
+			</tr>
+			<tr>
+				<td class='rightBox'><span class='labelScheda'>Orario:</span></td>
+				<td class='leftBox'>ore 20.30</td>
+			</tr>
+			<tr>
+				<td class='rightBox'><span class='labelScheda'>Luogo:</span></td>
+				<td class='leftBox'>Teatro Sociale</td>
+			</tr>
+			<tr>
+				<td class='rightBox'><span class='labelScheda'>Indirizzo:</span></td>
+				<td class='leftBox'>via Oss Mazzurana, 19</td>
+			</tr>
+			<tr>
+				<td class='rightBox'><span class='labelScheda'>Telefono:</span></td>
+				<td class='leftBox'>0461/261673</td>
+			</tr>
+			<tr>
+				<td class='rightBox'><span class='labelScheda'>Località:</span></td>
+				<td class='leftBox'>Trento</td>
+			</tr>
+			<tr>
+				<td class='rightBox'><span class='labelScheda'>Costo:</span></td>
+				<td class='leftBox'>Ingresso con biglietto numerato gratuito. <br>Ritiro
+					biglietti dal 12 febbraio c/o Punto Info Teatro Sociale, dalle 16
+					alle 19 e da un'ora prima del concerto, fino ad esaurimento posti a
+					sedere. Info-point 800-013952
+				</td>
+			</tr>
+			<tr>
+				<td class='rightBox'><span class='labelScheda'>Note:</span></td>
+				<td class='leftBox'><font face="verdana">Il Presidente
+						Danilo Curti e il Direttore Simonetta Bungaro hanno il piacere di
+						invitarLa alla Cerimonia di Inaugurazione per l'Anno Accademico
+						2012/2013 che si terrà il giorno 19 febbraio presso il Teatro
+						Sociale di Trento. <br>Seguirà rinfresco presso la sede del
+						Conservatorio di musica “F.A. Bonporti” Via S. Maria Maddalena 1 -
+						Trento</td>
+			</tr>
+			<tr>
+				<td class='rightBox'><span class='labelScheda'>Enti
+						Organizzatori:</span></td>
+				<td class='leftBox'>Conservatorio Statale di Musica
+					"F.A.Bonporti"</td>
+			</tr>
+			<tr>
+				<td class='rightBox'><span class='labelScheda'>Indirizzo
+						Internet:</span></td>
+				<td class='leftBox'><font size="1" face="Arial" color="#000000"><a
+						href=http://www.conservatorio.tn.it / target='_new'>http://www.conservatorio.tn.it/</a></font></td>
+			</tr>
+			<tr>
+				<td class='rightBox'><span class='labelScheda'>E-mail:</span></td>
+				<td class='leftBox'><a
+					href="mailto:segreteria@conservatorio.tn.it"><font face="Arial"
+						size=1> segreteria@conservatorio.tn.it</font></a></td>
+			</tr>
+		</table>
+		<P>&nbsp;</P>
+	</DIV>
 </BODY>
 </HTML>

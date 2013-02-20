@@ -1,0 +1,72 @@
+package eu.trentorise.smartcampus.services.trento.events.data.message;
+
+import "core.proto";
+
+message TCEventPage {
+    required int64 pagenumber = 1;
+    required int64 totalpages = 2;
+    repeated TCEventDescr events = 3;
+}
+
+message TCEventDescr {
+    required string startDate = 1;  
+    required string category = 2;
+    required string title = 3;
+    required string link = 4;    
+    required string city = 5;
+}
+
+message TCEvent {
+    required string title = 1;
+    repeated string dateFrom = 2;
+    repeated string dateTo = 3;
+    required string place = 4;
+    required string city = 5;
+    required string time = 6;
+    optional string address = 7;
+    optional string category = 8;
+    optional string details = 9;
+    optional string tel = 10;
+    optional string fax = 11;
+    optional string mail = 12;
+    optional string www = 13;
+    optional string price = 14;
+    optional string organization = 15;
+    optional string notes = 16;
+    
+    optional it.sayservice.platform.core.message.POI poi = 17;
+    optional string eventDate = 18;
+}
+
+message EventDescrList {
+    repeated EventDescr event = 1;
+    repeated EventDescr manifestation = 2;
+}
+
+message EventDescr {
+    required string href = 1;
+    required string keyword = 2;
+    required string shortDesc = 3;
+}
+
+
+message Event {
+	required string id = 1;
+	required string title = 2;
+    required string date = 3;
+    required string place = 4;
+    required string time = 5;
+    
+	optional string content = 6;
+	optional string lastUpdate = 8;
+	optional string img = 9;
+	optional string district = 10;
+	optional string cost = 11;
+	optional string manifestation = 12;
+
+	optional it.sayservice.platform.core.message.POI poi = 13;
+	
+	optional string shortDesc = 14;
+	optional string keyword = 15;
+}
+

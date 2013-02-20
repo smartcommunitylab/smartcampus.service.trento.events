@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xss:definition main="dayEvents" name="dayEvents"
+    namespace="http://tempuri.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xss="http://www.sayservice.it/xss" xmlns="http://www.sayservice.it/html">
+
+    <xss:template name="dayEvents">
+        <html xss:anyAttrs="true">
+            <head xss:anyContent="true" />
+            <body xss:anyAttrs="true">
+                <xss:path path="//div[@class='tabs-panels']">
+                    <xss:use-template name="mainDiv" />
+                </xss:path>
+            </body>
+        </html>
+    </xss:template>
+
+    <xss:template name="mainDiv">
+        <div class="tabs-panels">
+            <h3 class="hide no-js-hide">Eventi</h3>
+            <div id="eventi" class="ui-tabs-hide">
+                <div class="border-box box-violet box-tabs-panel">
+                    <div class="border-ml">
+                        <div class="border-mr">
+                            <div class="border-mc">
+                                <div class="border-content">
+                                    <xss:repeat>
+                                        <xss:use-template name="elementDiv" label="event"/>
+                                    </xss:repeat>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+            <h3 class="hide no-js-hide">Manifestazioni</h3>
+            <div id="manifestazioni" class="no-js-hide ui-tabs-hide">
+                <div class="border-box box-violet box-tabs-panel">
+                    <div class="border-ml">
+                        <div class="border-mr">
+                            <div class="border-mc">
+                                <div class="border-content">
+                                    <xss:repeat>
+                                        <xss:use-template name="elementDiv" label="manifestation"/>
+                                    </xss:repeat>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </xss:template>
+
+    <xss:template name="elementDiv">
+       <div class="(.)*">
+           <h4><a xss:label="href" xss:labelValue="@href" href="(.)*"><xss:anyText/></a></h4>
+           <span class="ezagenda_date"><xss:anyText/></span> 
+           <span class="ezagenda_keyword">
+             <xss:structured-text>
+                <xss:text pattern="\["/>
+                <xss:anyText label="keyword"/>
+                <xss:text pattern="\]"/>
+             </xss:structured-text> 
+           </span>
+           <div class="attribute-short">
+               <p xss:anyContent="true" xss:label="shortDesc" xss:labelValue="."/>
+           </div>
+       </div>
+    </xss:template>
+
+</xss:definition>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xss:definition main="elenco-eventi" name="elenco-eventi"
+	namespace="http://tempuri.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xss="http://www.sayservice.it/xss" xmlns="http://www.sayservice.it/html">
+
+	<xss:template name="elenco-eventi">
+		<xss:repeat>
+		  <SCRIPT xss:anyAttrs="true" xss:anyContent="true"/>
+		</xss:repeat>   
+		<html>
+			<xss:path path="//div[@id='PAGE']">
+				<div id="PAGE">
+					<xss:use-template name="tableSearch" />
+					<xss:use-template name="tableSchedeTrovate" />
+					<xss:use-template name="tableDataIniziative" />
+					<img xss:anyContent="true" xss:anyAttrs="true" />
+					<br />
+					<xss:use-template name="tableElenco" />
+					<p />
+					<hr />
+					<table xss:anyContent="true" xss:anyAttrs="true" />
+					<table xss:anyContent="true" xss:anyAttrs="true" />
+                    <xss:repeat>
+                        <p xss:anyContent="true"/>
+                    </xss:repeat>
+				</div>
+			</xss:path>
+		</html>
+	</xss:template>
+
+	<!-- As of current, not relevant to extract the number of schede -->
+	<xss:template name="tableSchedeTrovate">
+		<table xss:anyAttrs="true" xss:anyContent="true" />
+	</xss:template>
+
+	<!-- As of current, not relevant to extract the date for which these initiatives 
+		have been searched -->
+	<xss:template name="tableDataIniziative">
+		<table xss:anyAttrs="true" xss:anyContent="true" />
+	</xss:template>
+
+	<xss:template name="tableSearch">
+		<table cellspacing="0" cellpadding="0" border="0">
+			<tbody>
+				<tr xss:anyContent="true" xss:anyAttrs="true" />
+				<tr xss:anyAttrs="true">
+					<td nowrap="NOWRAP">
+						<center>
+							<table cellspacing="0" cellpadding="0" border="0">
+								<tbody>
+									<tr>
+										<td xss:anyAttrs="true" xss:anyContent="true" />
+										<td xss:anyAttrs="true" xss:anyContent="true" />
+										<td xss:anyAttrs="true" xss:anyContent="true" />
+										<td xss:anyAttrs="true" xss:anyContent="true" />
+										<td xss:anyAttrs="true">
+											<p align="CENTER">
+												<font color="#000000" face="Arial">
+													<strong>
+														<xss:structured-text>
+															<xss:text pattern="[0-9]+" label="pagenumber" />
+															<xss:text pattern="/" />
+															<xss:text pattern="[0-9]+" label="totalpages" />
+														</xss:structured-text>
+													</strong>
+												</font>
+											</p>
+										</td>
+										<td xss:anyAttrs="true" xss:anyContent="true" />
+										<td xss:anyAttrs="true" xss:anyContent="true" />
+									</tr>
+								</tbody>
+							</table>
+						</center>
+					</td>
+				</tr>
+				<tr xss:anyAttrs="true" xss:anyContent="true" />
+			</tbody>
+		</table>
+	</xss:template>
+
+	<xss:template name="tableElenco">
+		<table class="elenco" cellspacing="0" cellpadding="0" border="0">
+			<tbody>
+				<xss:repeat>
+					<xss:use-template name="evento" label="events" />
+				</xss:repeat>
+			</tbody>
+		</table>
+	</xss:template>
+
+	<xss:template name="evento">
+		<tr xss:anyAttrs="true" xss:anyContent="true" />
+		<tr>
+			<td class="listElementLeft">
+				<strong>
+					<a target="_top" href="(.)*">
+						<xss:anyText/>
+						<xss:finally>
+						  <xss:copy label="title" query="text()"/>
+						  <xss:copy label="link" query="@href"/>
+						</xss:finally>
+					</a>
+				</strong>
+			</td>
+			<td class="listElementRight">
+				<font size="1">
+					<xss:anyText label="city" />
+				</font>
+			</td>
+		</tr>
+		<tr>
+			<td class="listElementLeft">
+				<font size="1">
+					<xss:anyText label="category" />
+				</font>
+			</td>
+			<td class="listElementRight">
+				<font size="1">
+					<xss:anyText label="startDate" />
+				</font>
+			</td>
+		</tr>
+	</xss:template>
+
+</xss:definition>

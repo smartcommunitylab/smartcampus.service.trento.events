@@ -26,6 +26,7 @@
     <xss:template name="tt">
        <xss:repeat>
            <xss:finally>
+              <xss:default label="time" value="''"/>
               <xss:concat label="time"/>
            </xss:finally>
             <xss:choice>

@@ -197,6 +197,24 @@
                 </tr>
                 <xss:optional>
                     <tr>
+                        <td class='rightBox'><span class='labelScheda'>Descrizione:</span></td>
+                        <td class='leftBox'>
+                            <xss:repeat>
+                                <xss:finally>
+                                    <xss:concat label="notes"/>
+                                </xss:finally>
+                                <xss:choice>
+                                    <b xss:anyAttrs="true" xss:anyContent="true" xss:label="notes" xss:labelValue="."/>
+                                    <br xss:label="notes" xss:labelValue="''"/>
+                                    <xss:anyText  label="notes"/>
+                                    <font xss:anyAttrs="true" xss:anyContent="true" xss:label="notes" xss:labelValue="."/>
+                                </xss:choice>
+                            </xss:repeat>
+                         </td>      
+                    </tr>
+                </xss:optional>
+                <xss:optional>
+                    <tr>
                         <td class='rightBox'><span class='labelScheda'>Costo:</span></td>
                         <td class='leftBox'>
                             <xss:repeat>

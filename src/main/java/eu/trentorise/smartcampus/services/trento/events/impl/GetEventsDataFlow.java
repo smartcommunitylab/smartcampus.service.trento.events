@@ -44,8 +44,6 @@ public class GetEventsDataFlow implements ServiceDataFlow {
 	Logger log = Logger.getLogger(this.getClass());
 
 
-	private Map<String, Object> contextVariables;
-
 	private String htmlString;
 	private org.w3c.dom.Document html;
 	private eu.trentorise.smartcampus.services.trento.events.data.message.Events.TCEventPage dayProto;
@@ -57,7 +55,7 @@ public class GetEventsDataFlow implements ServiceDataFlow {
 	private ServiceMethod serviceMethod;
 
 	public GetEventsDataFlow () {
-		this.contextVariables = new HashMap<String, Object>();
+		super();
 	}
 
 	public void setServiceMethod(ServiceMethod serviceMethod) {
@@ -65,6 +63,7 @@ public class GetEventsDataFlow implements ServiceDataFlow {
 	}
 
 	public List<Message> invoke(String serviceExecutionId, Map<String, Object> parameters) throws DataFlowException {
+		Map<String, Object> contextVariables = new java.util.HashMap<String,Object>();
 	contextVariables.put("htmlString", htmlString);
 	contextVariables.put("html", html);
 	contextVariables.put("dayProto", dayProto);

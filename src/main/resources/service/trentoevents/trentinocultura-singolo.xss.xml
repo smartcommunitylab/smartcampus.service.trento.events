@@ -195,6 +195,7 @@
                     <td class='rightBox'><span class='labelScheda'>Località:</span></td>
                     <td class='leftBox'><xss:anyText label="city"/></td>
                 </tr>
+                <xss:repeat>
                 <xss:optional>
                     <tr>
                         <td class='rightBox'><span class='labelScheda'>Descrizione:</span></td>
@@ -325,6 +326,7 @@
                         </td>
                     </tr>
                 </xss:optional>
+                </xss:repeat>
             </tbody>
         </table>
     </xss:template>

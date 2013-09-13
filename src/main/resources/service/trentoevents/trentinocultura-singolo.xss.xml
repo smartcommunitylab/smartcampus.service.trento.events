@@ -209,7 +209,8 @@
                                     <br xss:label="notes" xss:labelValue="''"/>
                                     <xss:anyText  label="notes"/>
                                     <font xss:anyAttrs="true" xss:anyContent="true" xss:label="notes" xss:labelValue="."/>
-                                </xss:choice>
+                                    <a xss:anyAttrs="true" xss:anyContent="true" xss:label="notes" xss:labelValue="."/>
+                                    </xss:choice>
                             </xss:repeat>
                          </td>      
                     </tr>
@@ -241,6 +242,7 @@
                                     <xss:concat label="notes"/>
                                 </xss:finally>
                                 <xss:choice>
+                                    <b xss:anyAttrs="true" xss:anyContent="true" xss:label="notes" xss:labelValue="."/>
                                     <br xss:label="notes" xss:labelValue="''"/>
                                     <xss:anyText  label="notes"/>
                                     <font xss:anyAttrs="true" xss:anyContent="true" xss:label="notes" xss:labelValue="."/>
@@ -259,6 +261,7 @@
                                     <xss:concat label="notes"/>
                                 </xss:finally>
                                 <xss:choice>
+                                    <b xss:anyAttrs="true" xss:anyContent="true" xss:label="notes" xss:labelValue="."/>
                                     <br xss:label="notes" xss:labelValue="''"/>
                                     <xss:anyText  label="notes"/>
                                     <font xss:anyAttrs="true" xss:anyContent="true" xss:label="notes" xss:labelValue="."/>
@@ -281,6 +284,7 @@
                                     <br xss:label="notes" xss:labelValue="''"/>
                                     <xss:anyText  label="notes"/>
                                     <font xss:anyAttrs="true" xss:anyContent="true" xss:label="notes" xss:labelValue="."/>
+                                    <a xss:anyAttrs="true" xss:anyContent="true" xss:label="notes" xss:labelValue="."/>
                                 </xss:choice>
                             </xss:repeat>
                          </td>
@@ -305,6 +309,7 @@
                                     <br xss:label="notes" xss:labelValue="''"/>
                                     <xss:anyText  label="notes"/>
                                     <font xss:anyAttrs="true" xss:anyContent="true" xss:label="notes" xss:labelValue="."/>
+                                    <a xss:anyAttrs="true" xss:anyContent="true" xss:label="notes" xss:labelValue="."/>
                                 </xss:choice>
                             </xss:repeat>
                          </td>      

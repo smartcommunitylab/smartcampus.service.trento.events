@@ -227,6 +227,14 @@ public class EventsProtoBean {
     
   }
   public static class TCEventProtoBean implements ProtoBean {
+          private String id;
+    public String getId() {
+      return id;
+    }
+    public void setId(String id) {
+      this.id = id;
+    }
+    
           private String title;
     public String getTitle() {
       return title;
@@ -390,7 +398,8 @@ public class EventsProtoBean {
     
     public TCEventProtoBean(eu.trentorise.smartcampus.services.trento.events.data.message.Events.TCEvent reference) {
       super();
-                        setTitle(reference.getTitle());
+                        setId(reference.getId());
+                                    setTitle(reference.getTitle());
                                     setDateFromList(reference.getDateFromList());
                                     setDateToList(reference.getDateToList());
                                     setPlace(reference.getPlace());
@@ -412,7 +421,14 @@ public class EventsProtoBean {
 
     public TCEventProtoBean(XSSData data) throws XSSDataException {
       super();
-                        if (data.get("title") != null && !data.get("title").isEmpty()) {
+                        if (data.get("id") != null && !data.get("id").isEmpty()) {
+            if (data.get("id").size()>1) throw new XSSDataException("Incorrect data cardinality for field id: expected single value.");
+            
+            Object item = data.get("id").get(0); 
+                            if (!(item instanceof DOMData)) throw new XSSDataException("Incorrect data type for field id: expected DOMData");
+                                  setId(convertToString(((DOMData)item).getStringValue()));
+                                      }
+                                if (data.get("title") != null && !data.get("title").isEmpty()) {
             if (data.get("title").size()>1) throw new XSSDataException("Incorrect data cardinality for field title: expected single value.");
             
             Object item = data.get("title").get(0); 
@@ -543,7 +559,10 @@ public class EventsProtoBean {
     
     public eu.trentorise.smartcampus.services.trento.events.data.message.Events.TCEvent buildMessage() {
       eu.trentorise.smartcampus.services.trento.events.data.message.Events.TCEvent .Builder builder = eu.trentorise.smartcampus.services.trento.events.data.message.Events.TCEvent .newBuilder();
-                        if (getTitle() != null) {
+                        if (getId() != null) {
+      	builder.setId(getId());
+      }
+                                    if (getTitle() != null) {
       	builder.setTitle(getTitle());
       }
                               if (getDateFromList()!=null) {

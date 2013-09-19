@@ -17,25 +17,26 @@ message TCEventDescr {
 }
 
 message TCEvent {
-    required string title = 1;
-    repeated string dateFrom = 2;
-    repeated string dateTo = 3;
-    required string place = 4;
-    required string city = 5;
-    required string time = 6;
-    optional string address = 7;
-    optional string category = 8;
-    optional string details = 9;
-    optional string tel = 10;
-    optional string fax = 11;
-    optional string mail = 12;
-    optional string www = 13;
-    optional string price = 14;
-    optional string organization = 15;
-    optional string notes = 16;
+	required string id = 1;
+    required string title = 2;
+    repeated string dateFrom = 3;
+    repeated string dateTo = 4;
+    required string place = 5;
+    required string city = 6;
+    required string time = 7;
+    optional string address = 8;
+    optional string category = 9;
+    optional string details = 10;
+    optional string tel = 11;
+    optional string fax = 12;
+    optional string mail = 13;
+    optional string www = 14;
+    optional string price = 15;
+    optional string organization = 16;
+    optional string notes = 17;
     
-    optional it.sayservice.platform.core.message.POI poi = 17;
-    optional string eventDate = 18;
+    optional it.sayservice.platform.core.message.POI poi = 18;
+    optional string eventDate = 19;
 }
 
 message EventDescrList {

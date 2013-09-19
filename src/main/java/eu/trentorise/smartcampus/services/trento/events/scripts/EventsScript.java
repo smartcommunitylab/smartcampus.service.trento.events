@@ -38,6 +38,7 @@ import eu.trentorise.smartcampus.services.trento.events.data.message.Events.TCEv
 
 public class EventsScript {
 
+	private static final String ID_OBJ = "idobj=";
 	private static final String DATE_FORMAT_SHORT = "dd/MM/yyyy";
 	private static final int horizon = 7;
 
@@ -102,6 +103,10 @@ public class EventsScript {
 		TCEvent.Builder builder = TCEvent.newBuilder(evt);
 		builder.setEventDate(date);
 		builder.setCategory(descr.getCategory());
+		String link = descr.getLink().toLowerCase();
+		int idx = link.indexOf(ID_OBJ);
+		String id = link.substring(idx+ID_OBJ.length(),link.indexOf('&', idx));
+		builder.setId(id);
 		return builder.build();
 	}
 }
